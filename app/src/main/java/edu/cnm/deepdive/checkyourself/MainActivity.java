@@ -6,7 +6,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,11 +22,11 @@ public class MainActivity extends AppCompatActivity {
           HomeFragment homeFragment = new HomeFragment();
           transaction.replace(R.id.content, homeFragment).addToBackStack("home").commit();
           break;
-        case R.id.navigation_dashboard:
+        case R.id.navigation_spending:
           SpendingFragment spendingFragment = new SpendingFragment();
           transaction.replace(R.id.content, spendingFragment).addToBackStack("home").commit();
           break;
-        case R.id.navigation_notifications:
+        case R.id.navigation_input:
          InputFragment inputFragment = new InputFragment();
           transaction.replace(R.id.content, inputFragment).addToBackStack("home").commit();
           break;

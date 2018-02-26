@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer.GridStyle;
 import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
@@ -19,6 +21,7 @@ import com.jjoe64.graphview.series.DataPoint;
  */
 public class HomeFragment extends Fragment {
 
+  public static final int MAX_VALUE = 100;
 
   public HomeFragment() {
     // Required empty public constructor
@@ -32,29 +35,43 @@ public class HomeFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_home, container, false);
 
     GraphView graph = (GraphView) view.findViewById(R.id.graph);
+    graph.getViewport().setMinY(0);
+    graph.getViewport().setMaxY(MAX_VALUE);
+    graph.getViewport().setYAxisBoundsManual(true);
+    graph.getGridLabelRenderer().setGridStyle(GridStyle.NONE);
     BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
-        new DataPoint(0, 1),
-        new DataPoint(1, 5),
-        new DataPoint(2, 3),
-        new DataPoint(3, 2),
-        new DataPoint(4, 6)
+        new DataPoint(0, 67),
+        new DataPoint(1, 98),
+        new DataPoint(2, 56),
+        new DataPoint(3, 21),
+        new DataPoint(4, 47)
     });
     graph.addSeries(series);
 
     StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
     staticLabelsFormatter.setHorizontalLabels(new String[] {"Tag1", "Tag2", "Tag3", "Tag4", "Tag5"});
-    staticLabelsFormatter.setVerticalLabels(new String[] {"low", "middle", "high"});
     graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+    graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+    graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
 
 // styling
     series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
       @Override
       public int get(DataPoint data) {
-        return Color.rgb((int) data.getX()*255/4, (int) Math.abs(data.getY()*255/6), 100);
+        int color;
+        double percentValue = ((data.getY() / MAX_VALUE) * 100);
+        if (percentValue > 70) {
+          color = Color.GREEN;
+        } else if (percentValue < 70 && percentValue > 30) {
+          color = Color.YELLOW;
+        } else {
+          color = Color.RED;
+        }
+        return color;
       }
     });
 
-    series.setSpacing(50);
+    series.setSpacing(60);
 
 //// draw values on top
 //    series.setDrawValuesOnTop(true);
