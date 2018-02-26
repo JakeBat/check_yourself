@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="edu.cnm.deepdive.checkyourself.HomeFragment">
+
+  <com.jjoe64.graphview.GraphView
+    android:layout_width="match_parent"
+    android:layout_height="200dip"
+    android:id="@+id/graph"
+    android:layout_gravity="center"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp"/>
+
+</FrameLayout>
