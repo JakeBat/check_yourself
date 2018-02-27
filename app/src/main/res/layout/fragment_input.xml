@@ -1,13 +1,27 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context="edu.cnm.deepdive.checkyourself.InputFragment">
 
-  <!-- TODO: Update blank fragment layout -->
-  <TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="This will contain the inputs and settings"/>
+  <!--<GridView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:columnCount="2"-->
+    <!--&gt;-->
 
-</FrameLayout>
+    <!--<TextView-->
+      <!--android:text="Test"-->
+      <!--android:layout_column="0"-->
+      <!--android:layout_row="0"/>-->
+
+    <!--<TextView-->
+      <!--android:text="Test1"-->
+      <!--android:layout_column="1"-->
+      <!--android:layout_row="0"/>-->
+
+  <!--</GridView>-->
+
+
+
+</android.support.constraint.ConstraintLayout>

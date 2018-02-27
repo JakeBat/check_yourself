@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.checkyourself;
 
+import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+
+  private UniDatabase database;
 
   private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
       = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -48,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
 
     HomeFragment homeFragment = new HomeFragment();
     transaction.replace(R.id.content, homeFragment).addToBackStack("home").commit();
+  }
+
+  public UniDatabase getDatabase() {
+    if (database == null){
+      database= Room.databaseBuilder(getApplicationContext(), UniDatabase.class, "unidatabase").fallbackToDestructiveMigration().build();
+    }
+    return database;
   }
 
 }

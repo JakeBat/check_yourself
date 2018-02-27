@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="UniDatabase" uuid="24c593e5-9508-4c14-9450-f63872a02f1a">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\jake_\.IntelliJIdea2017.3\system\android\databases\EMULATOR_Nexus_5X_API_22\edu.cnm.deepdive.checkyourself\internal\unidatabase</jdbc-url>
+    </data-source>
+  </component>
+</project>
