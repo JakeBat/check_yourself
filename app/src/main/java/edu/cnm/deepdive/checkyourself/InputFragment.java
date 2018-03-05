@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import edu.cnm.deepdive.checkyourself.dao.BudgetDao;
 import edu.cnm.deepdive.checkyourself.models.Budget;
+import edu.cnm.deepdive.checkyourself.models.Category;
+import edu.cnm.deepdive.checkyourself.models.Record;
 import java.util.List;
 
 
@@ -62,6 +64,28 @@ public class InputFragment extends Fragment implements TextWatcher {
     savingsEdit.addTextChangedListener(this);
     monthlyEdit.addTextChangedListener(this);
 
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        List<Budget> budgetList = ((MainActivity) getActivity()).getDatabase(getContext())
+            .budgetDao().getAll();
+        if (!budgetList.isEmpty()) {
+          final Budget budget = ((MainActivity) getActivity()).getDatabase(getContext()).budgetDao()
+              .getFirst();
+          getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+              incomeEdit.setText(String.format("$%.2f", budget.getIncome()));
+              familyEdit.setText(String.format("%d", budget.getFamilySize()));
+              savingsEdit.setText(String.format("%d%%", budget.getPercentSavings()));
+              monthlyEdit.setText(String.format("$%.2f", budget.getMonthlyPayments()));
+
+            }
+          });
+        }
+      }
+    }).start();
+
     updateButton.setOnClickListener(new OnClickListener() {
 
       Budget budget = new Budget();
@@ -71,7 +95,8 @@ public class InputFragment extends Fragment implements TextWatcher {
         new Thread(new Runnable() {
           @Override
           public void run() {
-            List<Budget> budgetList = ((MainActivity)getActivity()).getDatabase(getContext()).budgetDao().getAll();
+            List<Budget> budgetList = ((MainActivity) getActivity()).getDatabase(getContext())
+                .budgetDao().getAll();
             if (!budgetList.isEmpty()) {
               budget = budgetList.get(0);
             }
@@ -80,7 +105,7 @@ public class InputFragment extends Fragment implements TextWatcher {
             budget.setPercentSavings(savingsValue);
             budget.setMonthlyPayments(monthlyValue);
             if (budgetList.isEmpty()) {
-              ((MainActivity)getActivity()).getDatabase(getContext()).budgetDao().insert(budget);
+              ((MainActivity) getActivity()).getDatabase(getContext()).budgetDao().insert(budget);
             } else {
               ((MainActivity) getActivity()).getDatabase(getContext()).budgetDao()
                   .updateBudget(budget);
@@ -89,8 +114,6 @@ public class InputFragment extends Fragment implements TextWatcher {
         }).start();
       }
     });
-
-
 
     return view;
   }
@@ -114,11 +137,11 @@ public class InputFragment extends Fragment implements TextWatcher {
       familyValue = Integer.parseInt(familyEdit.getText().toString());
       savingsValue = Integer.parseInt(savingsEdit.getText().toString());
       monthlyValue = Double.parseDouble(monthlyEdit.getText().toString());
-      totalValue = (incomeValue - monthlyValue) * (1 - (savingsValue / 100));
+//      totalValue = (incomeValue - monthlyValue) * (1 - (savingsValue / 100));
 
       totalEdit.setText(String.format("%.2f", totalValue));
 
-    } catch(NumberFormatException e) {
+    } catch (NumberFormatException e) {
       e.printStackTrace();
       Toast.makeText(getActivity(), "Invalid Input", Toast.LENGTH_LONG).show();
     }

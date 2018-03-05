@@ -15,6 +15,9 @@ public interface BudgetDao {
   @Query("SELECT * FROM budget")
   List<Budget> getAll();
 
+  @Query("Select * FROM budget WHERE id = 1")
+  Budget getFirst();
+
   @Insert
   long insert(Budget budget);
 
