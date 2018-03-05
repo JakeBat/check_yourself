@@ -2,26 +2,112 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   tools:context="edu.cnm.deepdive.checkyourself.InputFragment">
 
-  <!--<GridView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:columnCount="2"-->
-    <!--&gt;-->
+  <LinearLayout
+    android:id="@+id/edit_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent">
 
-    <!--<TextView-->
-      <!--android:text="Test"-->
-      <!--android:layout_column="0"-->
-      <!--android:layout_row="0"/>-->
+    <TableLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
 
-    <!--<TextView-->
-      <!--android:text="Test1"-->
-      <!--android:layout_column="1"-->
-      <!--android:layout_row="0"/>-->
+      <TableRow
+        android:paddingStart="10dp">
 
-  <!--</GridView>-->
+        <TextView
+          android:labelFor="@+id/income_edit"
+          android:text="Monthly Income"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
 
+        <EditText
+          android:id="@+id/income_edit"
+          android:inputType="numberDecimal"
+          android:hint="Monthly income"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="0"/>
 
+      </TableRow>
+
+      <TableRow
+        android:paddingStart="10dp">
+
+        <TextView
+          android:labelFor="@+id/family_edit"
+          android:text="Family Size"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+
+        <EditText
+          android:id="@+id/family_edit"
+          android:inputType="number"
+          android:hint="Size of family"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="0"/>
+
+      </TableRow>
+
+      <TableRow
+        android:paddingStart="10dp">
+
+        <TextView
+          android:labelFor="@+id/savings_edit"
+          android:text="Percent Savings"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+
+        <EditText
+          android:id="@+id/savings_edit"
+          android:inputType="number"
+          android:hint="Percent to save"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="0"/>
+
+      </TableRow>
+
+      <TableRow
+        android:paddingStart="10dp">
+
+        <TextView
+          android:labelFor="@+id/monthly_edit"
+          android:text="Monthly Payment Total"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+
+        <EditText
+          android:id="@+id/monthly_edit"
+          android:inputType="numberDecimal"
+          android:hint="Monthly payments Total"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="0"/>
+
+      </TableRow>
+
+    </TableLayout>
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/total_edit"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@id/edit_layout"
+    android:textSize="20dp"
+    android:paddingTop="20dp"/>
+
+  <Button
+    android:id="@+id/update_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@id/total_edit"
+
+    android:text="Update"/>
 
 </android.support.constraint.ConstraintLayout>

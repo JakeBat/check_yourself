@@ -15,6 +15,7 @@ import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
+import edu.cnm.deepdive.checkyourself.dao.CategoryDao;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -30,6 +31,7 @@ public class HomeFragment extends Fragment {
 
   private ListView homeList;
   private ArrayAdapter listAdapter;
+//  private double foodAmount;
 
   public HomeFragment() {
     // Required empty public constructor
@@ -39,7 +41,6 @@ public class HomeFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-
     View view = inflater.inflate(R.layout.fragment_home, container, false);
 
     GraphView graph = (GraphView) view.findViewById(R.id.graph);
@@ -47,20 +48,19 @@ public class HomeFragment extends Fragment {
     graph.getViewport().setMaxY(MAX_VALUE);
     graph.getViewport().setYAxisBoundsManual(true);
     graph.getViewport().setMinX(0);
-    graph.getViewport().setMaxX(6);
+    graph.getViewport().setMaxX(5);
     graph.getViewport().setXAxisBoundsManual(true);
     graph.getGridLabelRenderer().setGridStyle(GridStyle.NONE);
     BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
-        new DataPoint(1, 67),
+        new DataPoint(1, 20),
         new DataPoint(2, 90),
         new DataPoint(3, 56),
         new DataPoint(4, 21),
-        new DataPoint(5, 47)
     });
     graph.addSeries(series);
 
     StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-    staticLabelsFormatter.setHorizontalLabels(new String[] {"", "Tag1", "Tag2", "Tag3", "Tag4", "Tag5", ""}); // TODO link to database
+    staticLabelsFormatter.setHorizontalLabels(new String[] {"", "Food", "Monthly", "Enter.", "Misc.", ""}); // TODO link to database
     graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
     graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
     graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
@@ -96,6 +96,12 @@ public class HomeFragment extends Fragment {
     listAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, homeArrayList);
     homeList.setAdapter(listAdapter);
 
+//    new Thread(new Runnable() {
+//      @Override
+//      public void run() {
+//        foodAmount = UniDatabase.getInstance(getContext()).categoryDao().foodAmount();
+//      }
+//    }).start();
 
     return view;
   }

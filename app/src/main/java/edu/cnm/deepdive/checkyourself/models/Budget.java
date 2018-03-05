@@ -8,16 +8,10 @@ import android.arch.persistence.room.PrimaryKey;
 public class Budget {
 
   @PrimaryKey(autoGenerate = true)
-  private int id;
+  private long id;
 
   @ColumnInfo(name = "income")
-  private int income;
-
-  @ColumnInfo(name = "amountToSpend")
-  private String amountToSpend;
-
-  @ColumnInfo(name = "amountSpent")
-  private String amountSpent;
+  private double income;
 
   @ColumnInfo(name = "familySize")
   private int familySize;
@@ -25,36 +19,23 @@ public class Budget {
   @ColumnInfo(name = "percentSavings")
   private double percentSavings;
 
-  public int getId() {
+  @ColumnInfo(name = "monthlyPayments")
+  private double monthlyPayments;
+
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 
-  public int getIncome() {
+  public double getIncome() {
     return income;
   }
 
-  public void setIncome(int income) {
+  public void setIncome(double income) {
     this.income = income;
-  }
-
-  public String getAmountToSpend() {
-    return amountToSpend;
-  }
-
-  public void setAmountToSpend(String amountToSpend) {
-    this.amountToSpend = amountToSpend;
-  }
-
-  public String getAmountSpent() {
-    return amountSpent;
-  }
-
-  public void setAmountSpent(String amountSpent) {
-    this.amountSpent = amountSpent;
   }
 
   public int getFamilySize() {
@@ -71,5 +52,13 @@ public class Budget {
 
   public void setPercentSavings(double percentSavings) {
     this.percentSavings = percentSavings;
+  }
+
+  public double getMonthlyPayments() {
+    return monthlyPayments;
+  }
+
+  public void setMonthlyPayments(double monthlyPayments) {
+    this.monthlyPayments = monthlyPayments;
   }
 }
