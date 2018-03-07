@@ -66,6 +66,8 @@ public class InputFragment extends Fragment implements TextWatcher {
     familyEdit.addTextChangedListener(this);
     savingsEdit.addTextChangedListener(this);
     monthlyEdit.addTextChangedListener(this);
+//    incomeEdit.addTextChangedListener(new MoneyTextWatcher(incomeEdit));
+//    monthlyEdit.addTextChangedListener(new MoneyTextWatcher(monthlyEdit));
 
     new Thread(new Runnable() {
       @Override
@@ -150,34 +152,34 @@ public class InputFragment extends Fragment implements TextWatcher {
     }
   }
 
-  public class MoneyTextWatcher implements TextWatcher {
-    private final WeakReference<EditText> editTextWeakReference;
-
-    public MoneyTextWatcher(EditText editText) {
-      editTextWeakReference = new WeakReference<EditText>(editText);
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-      EditText editText = editTextWeakReference.get();
-      if (editText == null) return;
-      String s = editable.toString();
-      if (s.isEmpty()) return;
-      editText.removeTextChangedListener(this);
-      String cleanString = s.replaceAll("[$,.]", "");
-      BigDecimal parsed = new BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR).divide(new BigDecimal(100), BigDecimal.ROUND_FLOOR);
-      String formatted = NumberFormat.getCurrencyInstance().format(parsed);
-      editText.setText(formatted);
-      editText.setSelection(formatted.length());
-      editText.addTextChangedListener(this);
-    }
-  }
+//  public class MoneyTextWatcher implements TextWatcher {
+//    private final WeakReference<EditText> editTextWeakReference;
+//
+//    public MoneyTextWatcher(EditText editText) {
+//      editTextWeakReference = new WeakReference<EditText>(editText);
+//    }
+//
+//    @Override
+//    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//    }
+//
+//    @Override
+//    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//    }
+//
+//    @Override
+//    public void afterTextChanged(Editable editable) {
+//      EditText editText = editTextWeakReference.get();
+//      if (editText == null) return;
+//      String s = editable.toString();
+//      if (s.isEmpty()) return;
+//      editText.removeTextChangedListener(this);
+//      String cleanString = s.replaceAll("[$,.]", "");
+//      BigDecimal parsed = new BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR).divide(new BigDecimal(100), BigDecimal.ROUND_FLOOR);
+//      String formatted = NumberFormat.getCurrencyInstance().format(parsed);
+//      editText.setText(formatted);
+//      editText.setSelection(formatted.length());
+//      editText.addTextChangedListener(this);
+//    }
+//  }
 }
