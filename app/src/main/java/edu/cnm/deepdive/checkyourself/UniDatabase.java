@@ -17,7 +17,7 @@ import edu.cnm.deepdive.checkyourself.models.Record;
 import java.util.concurrent.Executors;
 
 
-@Database(entities = {Category.class, Budget.class, Record.class}, version = 2)
+@Database(entities = {Category.class, Budget.class, Record.class}, version = 1, exportSchema = true)
 public abstract class UniDatabase extends RoomDatabase {
 
   private static UniDatabase INSTANCE;

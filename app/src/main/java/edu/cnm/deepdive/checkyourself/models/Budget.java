@@ -13,13 +13,13 @@ public class Budget {
   @ColumnInfo(name = "income")
   private double income;
 
-  @ColumnInfo(name = "familySize")
+  @ColumnInfo(name = "family_size")
   private int familySize;
 
-  @ColumnInfo(name = "percentSavings")
-  private double percentSavings;
+  @ColumnInfo(name = "percent_savings")
+  private int percentSavings;
 
-  @ColumnInfo(name = "monthlyPayments")
+  @ColumnInfo(name = "monthly_payments")
   private double monthlyPayments;
 
   public long getId() {
@@ -46,11 +46,11 @@ public class Budget {
     this.familySize = familySize;
   }
 
-  public double getPercentSavings() {
+  public int getPercentSavings() {
     return percentSavings;
   }
 
-  public void setPercentSavings(double percentSavings) {
+  public void setPercentSavings(int percentSavings) {
     this.percentSavings = percentSavings;
   }
 

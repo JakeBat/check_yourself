@@ -24,6 +24,9 @@ import edu.cnm.deepdive.checkyourself.dao.BudgetDao;
 import edu.cnm.deepdive.checkyourself.models.Budget;
 import edu.cnm.deepdive.checkyourself.models.Category;
 import edu.cnm.deepdive.checkyourself.models.Record;
+import java.lang.ref.WeakReference;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.List;
 
 
@@ -75,10 +78,10 @@ public class InputFragment extends Fragment implements TextWatcher {
           getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-              incomeEdit.setText(String.format("$%.2f", budget.getIncome()));
+              incomeEdit.setText(String.format("%.2f", budget.getIncome()));
               familyEdit.setText(String.format("%d", budget.getFamilySize()));
-              savingsEdit.setText(String.format("%d%%", budget.getPercentSavings()));
-              monthlyEdit.setText(String.format("$%.2f", budget.getMonthlyPayments()));
+              savingsEdit.setText(String.format("%d", budget.getPercentSavings()));
+              monthlyEdit.setText(String.format("%.2f", budget.getMonthlyPayments()));
 
             }
           });
@@ -137,7 +140,7 @@ public class InputFragment extends Fragment implements TextWatcher {
       familyValue = Integer.parseInt(familyEdit.getText().toString());
       savingsValue = Integer.parseInt(savingsEdit.getText().toString());
       monthlyValue = Double.parseDouble(monthlyEdit.getText().toString());
-//      totalValue = (incomeValue - monthlyValue) * (1 - (savingsValue / 100));
+      totalValue = (incomeValue - monthlyValue) * (1 - (savingsValue / 100));
 
       totalEdit.setText(String.format("%.2f", totalValue));
 
@@ -147,4 +150,34 @@ public class InputFragment extends Fragment implements TextWatcher {
     }
   }
 
+  public class MoneyTextWatcher implements TextWatcher {
+    private final WeakReference<EditText> editTextWeakReference;
+
+    public MoneyTextWatcher(EditText editText) {
+      editTextWeakReference = new WeakReference<EditText>(editText);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+      EditText editText = editTextWeakReference.get();
+      if (editText == null) return;
+      String s = editable.toString();
+      if (s.isEmpty()) return;
+      editText.removeTextChangedListener(this);
+      String cleanString = s.replaceAll("[$,.]", "");
+      BigDecimal parsed = new BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR).divide(new BigDecimal(100), BigDecimal.ROUND_FLOOR);
+      String formatted = NumberFormat.getCurrencyInstance().format(parsed);
+      editText.setText(formatted);
+      editText.setSelection(formatted.length());
+      editText.addTextChangedListener(this);
+    }
+  }
 }

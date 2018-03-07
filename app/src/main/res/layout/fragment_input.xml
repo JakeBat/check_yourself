@@ -24,6 +24,11 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"/>
 
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="$"/>
+
         <EditText
           android:id="@+id/income_edit"
           android:inputType="numberDecimal"
@@ -42,6 +47,11 @@
           android:text="Family Size"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"/>
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text=""/>
 
         <EditText
           android:id="@+id/family_edit"
@@ -62,6 +72,11 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"/>
 
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="%"/>
+
         <EditText
           android:id="@+id/savings_edit"
           android:inputType="number"
@@ -80,6 +95,11 @@
           android:text="Monthly Payment Total"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"/>
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="$"/>
 
         <EditText
           android:id="@+id/monthly_edit"
