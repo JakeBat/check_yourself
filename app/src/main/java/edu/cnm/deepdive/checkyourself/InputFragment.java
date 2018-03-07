@@ -40,12 +40,19 @@ public class InputFragment extends Fragment implements TextWatcher {
   private EditText savingsEdit;
   private EditText monthlyEdit;
   private TextView totalEdit;
+  private TextView foodTotal;
+  private TextView enterTotal;
+  private TextView miscTotal;
   private double incomeValue;
   private int familyValue;
   private int savingsValue;
   private double monthlyValue;
   private double totalValue;
+  private double foodValue;
+  private double enterValue;
+  private double miscValue;
   private Button updateButton;
+  Budget budget = new Budget();
 
   public InputFragment() {
     // Required empty public constructor
@@ -62,38 +69,19 @@ public class InputFragment extends Fragment implements TextWatcher {
     monthlyEdit = view.findViewById(R.id.monthly_edit);
     totalEdit = view.findViewById(R.id.total_edit);
     updateButton = view.findViewById(R.id.update_button);
+    foodTotal = view.findViewById(R.id.food_total);
+    enterTotal = view.findViewById(R.id.enter_total);
+    miscTotal = view.findViewById(R.id.misc_total);
     incomeEdit.addTextChangedListener(this);
     familyEdit.addTextChangedListener(this);
     savingsEdit.addTextChangedListener(this);
     monthlyEdit.addTextChangedListener(this);
-//    incomeEdit.addTextChangedListener(new MoneyTextWatcher(incomeEdit));
-//    monthlyEdit.addTextChangedListener(new MoneyTextWatcher(monthlyEdit));
 
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        List<Budget> budgetList = ((MainActivity) getActivity()).getDatabase(getContext())
-            .budgetDao().getAll();
-        if (!budgetList.isEmpty()) {
-          final Budget budget = ((MainActivity) getActivity()).getDatabase(getContext()).budgetDao()
-              .getFirst();
-          getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-              incomeEdit.setText(String.format("%.2f", budget.getIncome()));
-              familyEdit.setText(String.format("%d", budget.getFamilySize()));
-              savingsEdit.setText(String.format("%d", budget.getPercentSavings()));
-              monthlyEdit.setText(String.format("%.2f", budget.getMonthlyPayments()));
-
-            }
-          });
-        }
-      }
-    }).start();
+    updateDisplay();
 
     updateButton.setOnClickListener(new OnClickListener() {
 
-      Budget budget = new Budget();
+
 
       @Override
       public void onClick(View v) {
@@ -109,6 +97,10 @@ public class InputFragment extends Fragment implements TextWatcher {
             budget.setFamilySize(familyValue);
             budget.setPercentSavings(savingsValue);
             budget.setMonthlyPayments(monthlyValue);
+            budget.setSpendingTotal(totalValue);
+            budget.setFoodTotal(foodValue);
+            budget.setEnterTotal(enterValue);
+            budget.setMiscTotal(miscValue);
             if (budgetList.isEmpty()) {
               ((MainActivity) getActivity()).getDatabase(getContext()).budgetDao().insert(budget);
             } else {
@@ -117,10 +109,39 @@ public class InputFragment extends Fragment implements TextWatcher {
             }
           }
         }).start();
+        updateDisplay();
       }
     });
 
     return view;
+  }
+
+  public void updateDisplay() {
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        List<Budget> budgetList = ((MainActivity) getActivity()).getDatabase(getContext())
+            .budgetDao().getAll();
+        if (!budgetList.isEmpty()) {
+          final Budget budget = ((MainActivity) getActivity()).getDatabase(getContext()).budgetDao()
+              .getFirst();
+          getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+              incomeEdit.setText(String.format("%.2f", budget.getIncome()));
+              familyEdit.setText(String.format("%d", budget.getFamilySize()));
+              savingsEdit.setText(String.format("%d", budget.getPercentSavings()));
+              monthlyEdit.setText(String.format("%.2f", budget.getMonthlyPayments()));
+              totalEdit.setText(String.format("%.2f", budget.getSpendingTotal()));
+              foodTotal.setText(String.format("%.2f", budget.getFoodTotal()));
+              enterTotal.setText(String.format("%.2f", budget.getEnterTotal()));
+              miscTotal.setText(String.format("%.2f", budget.getMiscTotal()));
+
+            }
+          });
+        }
+      }
+    }).start();
   }
 
 
@@ -142,44 +163,14 @@ public class InputFragment extends Fragment implements TextWatcher {
       familyValue = Integer.parseInt(familyEdit.getText().toString());
       savingsValue = Integer.parseInt(savingsEdit.getText().toString());
       monthlyValue = Double.parseDouble(monthlyEdit.getText().toString());
-      totalValue = (incomeValue - monthlyValue) * (1 - (savingsValue / 100));
-
-      totalEdit.setText(String.format("%.2f", totalValue));
+      totalValue = ((incomeValue - monthlyValue) * (1.0 - (savingsValue / 100.0)));
+      foodValue = (300.00 * familyValue);
+      enterValue = ((totalValue - foodValue) * .3);
+      miscValue = ((totalValue - foodValue) * .7);
 
     } catch (NumberFormatException e) {
       e.printStackTrace();
       Toast.makeText(getActivity(), "Invalid Input", Toast.LENGTH_LONG).show();
     }
   }
-
-//  public class MoneyTextWatcher implements TextWatcher {
-//    private final WeakReference<EditText> editTextWeakReference;
-//
-//    public MoneyTextWatcher(EditText editText) {
-//      editTextWeakReference = new WeakReference<EditText>(editText);
-//    }
-//
-//    @Override
-//    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//    }
-//
-//    @Override
-//    public void onTextChanged(CharSequence s, int start, int before, int count) {
-//    }
-//
-//    @Override
-//    public void afterTextChanged(Editable editable) {
-//      EditText editText = editTextWeakReference.get();
-//      if (editText == null) return;
-//      String s = editable.toString();
-//      if (s.isEmpty()) return;
-//      editText.removeTextChangedListener(this);
-//      String cleanString = s.replaceAll("[$,.]", "");
-//      BigDecimal parsed = new BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR).divide(new BigDecimal(100), BigDecimal.ROUND_FLOOR);
-//      String formatted = NumberFormat.getCurrencyInstance().format(parsed);
-//      editText.setText(formatted);
-//      editText.setSelection(formatted.length());
-//      editText.addTextChangedListener(this);
-//    }
-//  }
 }

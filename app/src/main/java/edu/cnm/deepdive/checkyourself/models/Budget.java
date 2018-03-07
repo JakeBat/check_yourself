@@ -22,6 +22,18 @@ public class Budget {
   @ColumnInfo(name = "monthly_payments")
   private double monthlyPayments;
 
+  @ColumnInfo(name = "spending_total")
+  private double spendingTotal;
+
+  @ColumnInfo(name = "food_total")
+  private double foodTotal;
+
+  @ColumnInfo(name = "enter_total")
+  private double enterTotal;
+
+  @ColumnInfo(name = "misc_total")
+  private double miscTotal;
+
   public long getId() {
     return id;
   }
@@ -60,5 +72,37 @@ public class Budget {
 
   public void setMonthlyPayments(double monthlyPayments) {
     this.monthlyPayments = monthlyPayments;
+  }
+
+  public double getSpendingTotal() {
+    return spendingTotal;
+  }
+
+  public void setSpendingTotal(double spendingTotal) {
+    this.spendingTotal = spendingTotal;
+  }
+
+  public double getFoodTotal() {
+    return foodTotal;
+  }
+
+  public void setFoodTotal(double foodTotal) {
+    this.foodTotal = foodTotal;
+  }
+
+  public double getEnterTotal() {
+    return enterTotal;
+  }
+
+  public void setEnterTotal(double enterTotal) {
+    this.enterTotal = enterTotal;
+  }
+
+  public double getMiscTotal() {
+    return miscTotal;
+  }
+
+  public void setMiscTotal(double miscTotal) {
+    this.miscTotal = miscTotal;
   }
 }

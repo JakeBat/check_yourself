@@ -19,14 +19,19 @@
         android:paddingStart="10dp">
 
         <TextView
+          android:layout_gravity="center_vertical"
           android:labelFor="@+id/income_edit"
           android:text="Monthly Income"
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"/>
+          android:layout_height="wrap_content"
+          android:layout_column="0"/>
+
+        <LinearLayout
+          android:layout_column="1">
 
         <TextView
-          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
           android:text="$"/>
 
         <EditText
@@ -35,7 +40,11 @@
           android:hint="Monthly income"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="0"/>
+          android:text="0"
+          android:background="@drawable/border"
+          android:paddingStart="5dp"/>
+
+        </LinearLayout>
 
       </TableRow>
 
@@ -46,12 +55,11 @@
           android:labelFor="@+id/family_edit"
           android:text="Family Size"
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"/>
-
-        <TextView
-          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text=""/>
+          android:layout_column="0"/>
+
+        <LinearLayout
+          android:layout_column="1">
 
         <EditText
           android:id="@+id/family_edit"
@@ -59,7 +67,16 @@
           android:hint="Size of family"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="0"/>
+          android:text="0"
+          android:background="@drawable/border"
+          android:paddingStart="5dp"/>
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="People"/>
+
+        </LinearLayout>
 
       </TableRow>
 
@@ -70,12 +87,12 @@
           android:labelFor="@+id/savings_edit"
           android:text="Percent Savings"
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"/>
-
-        <TextView
-          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="%"/>
+          android:layout_gravity="center_vertical"
+          android:layout_column="0"/>
+
+        <LinearLayout
+          android:layout_column="1">
 
         <EditText
           android:id="@+id/savings_edit"
@@ -83,7 +100,16 @@
           android:hint="Percent to save"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="0"/>
+          android:text="0"
+          android:background="@drawable/border"
+          android:paddingStart="5dp"/>
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:text="%"/>
+
+        </LinearLayout>
 
       </TableRow>
 
@@ -94,11 +120,16 @@
           android:labelFor="@+id/monthly_edit"
           android:text="Monthly Payment Total"
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"/>
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_column="0"/>
+
+        <LinearLayout
+          android:layout_column="1">
 
         <TextView
-          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
           android:text="$"/>
 
         <EditText
@@ -107,7 +138,11 @@
           android:hint="Monthly payments Total"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="0"/>
+          android:text="0"
+          android:background="@drawable/border"
+          android:paddingStart="5dp"/>
+
+        </LinearLayout>
 
       </TableRow>
 
@@ -126,6 +161,60 @@
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:paddingTop="20dp"/>
+
+      </TableRow>
+
+      <TableRow>
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:text="Food Total: "
+          android:textSize="20dp"
+          android:paddingTop="20dp"/>
+
+        <TextView
+          android:id="@+id/food_total"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20dp"
+          android:paddingTop="20dp"/>
+
+      </TableRow>
+
+      <TableRow>
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:text="Entertainment Total: "
+          android:textSize="20dp"
+          android:paddingTop="20dp"/>
+
+        <TextView
+          android:id="@+id/enter_total"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20dp"
+          android:paddingTop="20dp"/>
+
+      </TableRow>
+
+      <TableRow>
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:text="Miscellaneous Total: "
+          android:textSize="20dp"
+          android:paddingTop="20dp"/>
+
+        <TextView
+          android:id="@+id/misc_total"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20dp"
+          android:paddingTop="20dp"/>
 
       </TableRow>
 

@@ -15,7 +15,7 @@ import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import edu.cnm.deepdive.checkyourself.dao.CategoryDao;
+import edu.cnm.deepdive.checkyourself.models.Budget;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -31,7 +31,7 @@ public class HomeFragment extends Fragment {
 
   private ListView homeList;
   private ArrayAdapter listAdapter;
-//  private double foodAmount;
+  private Budget budget;
 
   public HomeFragment() {
     // Required empty public constructor
@@ -43,51 +43,68 @@ public class HomeFragment extends Fragment {
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-    GraphView graph = (GraphView) view.findViewById(R.id.graph);
-    graph.getViewport().setMinY(0);
-    graph.getViewport().setMaxY(MAX_VALUE);
-    graph.getViewport().setYAxisBoundsManual(true);
-    graph.getViewport().setMinX(0);
-    graph.getViewport().setMaxX(5);
-    graph.getViewport().setXAxisBoundsManual(true);
-    graph.getGridLabelRenderer().setGridStyle(GridStyle.NONE);
-    BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
-        new DataPoint(1, 20),
-        new DataPoint(2, 90),
-        new DataPoint(3, 56),
-        new DataPoint(4, 21),
-    });
-    graph.addSeries(series);
+    graphSetup(view);
 
-    StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-    staticLabelsFormatter.setHorizontalLabels(new String[] {"", "Food", "Monthly", "Enter.", "Misc.", ""}); // TODO link to database
-    graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
-    graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
-    graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
+    return view;
+  }
+
+  private void graphSetup(final View view) {
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        budget = ((MainActivity) getActivity()).getDatabase(getContext()).budgetDao()
+            .getFirst();
+
+        GraphView graph = (GraphView) view.findViewById(R.id.graph);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(MAX_VALUE);
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(5);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getGridLabelRenderer().setGridStyle(GridStyle.NONE);
+        double total = budget.getSpendingTotal();
+        double foodPercent = (100.00 * (budget.getFoodTotal() / total));
+        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
+            new DataPoint(1, foodPercent),
+            new DataPoint(2, 90),
+            new DataPoint(3, 56),
+            new DataPoint(4, 21),
+        });
+        graph.addSeries(series);
+
+        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+        staticLabelsFormatter.setHorizontalLabels(new String[] {"", "Food", "Monthly", "Enter.", "Misc.", ""}); // TODO link to database
+        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
 
 // styling
-    series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
-      @Override
-      public int get(DataPoint data) {
-        int color;
-        double percentValue = ((data.getY() / MAX_VALUE) * 100);
-        if (percentValue > GREEN_THRESHOLD) {
-          color = Color.GREEN;
-        } else if (percentValue < GREEN_THRESHOLD && percentValue > RED_THRESHOLD) {
-          color = Color.YELLOW;
-        } else {
-          color = Color.RED;
-        }
-        return color;
-      }
-    });
+        series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+          @Override
+          public int get(DataPoint data) {
+            int color;
+            double percentValue = ((data.getY() / MAX_VALUE) * 100);
+            if (percentValue > GREEN_THRESHOLD) {
+              color = Color.GREEN;
+            } else if (percentValue < GREEN_THRESHOLD && percentValue > RED_THRESHOLD) {
+              color = Color.YELLOW;
+            } else {
+              color = Color.RED;
+            }
+            return color;
+          }
+        });
 
-    series.setSpacing(50);
+        series.setSpacing(50);
 
 // draw values on top
-    series.setDrawValuesOnTop(true);
-    series.setValuesOnTopColor(Color.WHITE);
-    series.setValuesOnTopSize(50);
+        series.setDrawValuesOnTop(true);
+        series.setValuesOnTopColor(Color.WHITE);
+        series.setValuesOnTopSize(50);
+      }
+    }).start();
+
 
     homeList = view.findViewById(R.id.home_list);
     String[] homeArray = {"item 1", "item 2", "item 3", "item 4", "item 5", "item 6", "item 7", "item 8", "item 9", "item 10", "item 11", "item 12"};
@@ -102,8 +119,6 @@ public class HomeFragment extends Fragment {
 //        foodAmount = UniDatabase.getInstance(getContext()).categoryDao().foodAmount();
 //      }
 //    }).start();
-
-    return view;
   }
 
 }
