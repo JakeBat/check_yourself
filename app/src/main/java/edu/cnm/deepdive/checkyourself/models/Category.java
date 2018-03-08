@@ -1,10 +1,8 @@
 package edu.cnm.deepdive.checkyourself.models;
 
-import static android.arch.persistence.room.ForeignKey.CASCADE;
-
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity
@@ -16,6 +14,7 @@ public class Category {
   @ColumnInfo(name = "tag")
   private String tag;
 
+  @Ignore
   public Category() {
 
   }

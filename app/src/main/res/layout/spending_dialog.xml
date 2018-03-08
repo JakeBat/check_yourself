@@ -6,16 +6,16 @@
 
   <TableLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TableRow
       android:paddingStart="10dp">
 
       <TextView
-        android:labelFor="@+id/tag_spinner"
-        android:text="Tag"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/tag_spinner"
+        android:text="Tag"/>
 
       <Spinner
         android:id="@+id/tag_spinner"
@@ -30,18 +30,30 @@
       android:paddingStart="10dp">
 
       <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:labelFor="@+id/amount_edit"
         android:text="Amount"
+        android:layout_gravity="center_vertical"/>
+
+      <LinearLayout>
+
+      <Spinner
+        android:id="@+id/sign_spinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"/>
 
       <EditText
         android:id="@+id/amount_edit"
-        android:inputType="numberDecimal"
-        android:hint="amount of purchase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:hint="amount of purchase"
+        android:inputType="numberDecimal"
         android:text="0"/>
+
+      </LinearLayout>
 
     </TableRow>
 
@@ -49,28 +61,45 @@
       android:paddingStart="10dp">
 
       <TextView
-        android:labelFor="@+id/info_edit"
-        android:text="Info"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/info_edit"
+        android:text="Info"/>
 
       <EditText
         android:id="@+id/info_edit"
-        android:inputType="text"
-        android:hint="Info on purchase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:hint="Info on purchase"
+        android:inputType="text"
         android:text="N/A"/>
 
     </TableRow>
 
-    <TableRow>
+  </TableLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
       <Button
         android:id="@+id/spending_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_gravity="center_horizontal"
         android:text="Submit"/>
-    </TableRow>
 
-  </TableLayout>
+      <Button
+        android:id="@+id/spending_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Cancel"
+        android:layout_column="0"/>
+
+      </LinearLayout>
+
+
 </LinearLayout>

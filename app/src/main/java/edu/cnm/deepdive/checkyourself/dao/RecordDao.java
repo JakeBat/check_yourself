@@ -10,16 +10,18 @@ import java.util.List;
 public interface RecordDao {
 
   @Query("SELECT * FROM record")
-//      + "JOIN category ON category.tag = record.tag_id")
   List<Record> getAll();
 
-  @Query("SELECT * FROM record WHERE tag_id LIKE :name LIMIT 1")
-  Record findByTag(String name);
-
-  @Query("SELECT category.tag, record.amount, record.info FROM record INNER JOIN category ON record.tag_id = category.id")
+  @Query("SELECT category.tag, record.amount, record.info FROM record INNER JOIN category ON record.tag_id = category.id WHERE record.amount != 0.00")
   List<Record.Display> getSummary();
+
+  @Query("SELECT category.tag, sum(amount) as amount FROM record, category WHERE tag_id = category.id GROUP BY tag_id")
+  List<Record.Display> getSums();
+
 
   @Insert
   long insert(Record record);
 
+  @Insert
+  void insertAll(Record... records);
 }

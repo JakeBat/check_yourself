@@ -7,34 +7,32 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer.GridStyle;
 import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import edu.cnm.deepdive.checkyourself.models.Budget;
+import edu.cnm.deepdive.checkyourself.models.Record.Display;
+import edu.cnm.deepdive.checkyourself.models.Total;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class HomeFragment extends Fragment {
 
-  public static final int MAX_VALUE = 100; // TODO Make dynamic using user input
+  public static final int MAX_VALUE = 100;
   public static final int GREEN_THRESHOLD = 70;
   public static final int RED_THRESHOLD = 30;
 
-  private ListView homeList;
-  private ArrayAdapter listAdapter;
-  private Budget budget;
+  List<String> labels = new ArrayList<>();
+  TextView foodLeft;
+  TextView monthlyLeft;
+  TextView enterLeft;
+  TextView miscLeft;
 
   public HomeFragment() {
-    // Required empty public constructor
+
   }
 
 
@@ -44,6 +42,7 @@ public class HomeFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_home, container, false);
 
     graphSetup(view);
+    setupAmountsLeft(view);
 
     return view;
   }
@@ -52,8 +51,11 @@ public class HomeFragment extends Fragment {
     new Thread(new Runnable() {
       @Override
       public void run() {
-        budget = ((MainActivity) getActivity()).getDatabase(getContext()).budgetDao()
-            .getFirst();
+        List<Display> sums = ((MainActivity) getActivity())
+            .getDatabase(getContext()).recordDao()
+            .getSums();
+        List<Total> totals = ((MainActivity) getActivity()).getDatabase(getContext())
+            .totalDao().getAll();
 
         GraphView graph = (GraphView) view.findViewById(R.id.graph);
         graph.getViewport().setMinY(0);
@@ -63,23 +65,28 @@ public class HomeFragment extends Fragment {
         graph.getViewport().setMaxX(5);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getGridLabelRenderer().setGridStyle(GridStyle.NONE);
-        double total = budget.getSpendingTotal();
-        double foodPercent = (100.00 * (budget.getFoodTotal() / total));
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
-            new DataPoint(1, foodPercent),
-            new DataPoint(2, 90),
-            new DataPoint(3, 56),
-            new DataPoint(4, 21),
-        });
+
+        DataPoint[] dataPoints = new DataPoint[sums.size()];
+        for (int i = 0; i < sums.size(); i++) {
+          double sum = 100 + ((sums.get(i).getAmount() / totals.get(i).getTotal()) * 100);
+          dataPoints[i] = new DataPoint((i + 1), sum);
+        }
+        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
         graph.addSeries(series);
 
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-        staticLabelsFormatter.setHorizontalLabels(new String[] {"", "Food", "Monthly", "Enter.", "Misc.", ""}); // TODO link to database
+        labels.add("");
+        for (int i = 0; i < sums.size(); i++) {
+          String label = sums.get(i).getTag();
+          labels.add(label);
+        }
+        labels.add("");
+        staticLabelsFormatter.setHorizontalLabels(labels.toArray(new String[labels.size()]));
+
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
         graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
 
-// styling
         series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
           @Override
           public int get(DataPoint data) {
@@ -97,28 +104,44 @@ public class HomeFragment extends Fragment {
         });
 
         series.setSpacing(50);
-
-// draw values on top
         series.setDrawValuesOnTop(true);
         series.setValuesOnTopColor(Color.WHITE);
         series.setValuesOnTopSize(50);
       }
     }).start();
+  }
 
+  public void setupAmountsLeft(View view) {
+    foodLeft = view.findViewById(R.id.food_left);
+    monthlyLeft = view.findViewById(R.id.monthly_left);
+    enterLeft = view.findViewById(R.id.enter_left);
+    miscLeft = view.findViewById(R.id.misc_left);
 
-    homeList = view.findViewById(R.id.home_list);
-    String[] homeArray = {"item 1", "item 2", "item 3", "item 4", "item 5", "item 6", "item 7", "item 8", "item 9", "item 10", "item 11", "item 12"};
-    ArrayList<String> homeArrayList = new ArrayList<>();
-    homeArrayList.addAll(Arrays.asList(homeArray));
-    listAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, homeArrayList);
-    homeList.setAdapter(listAdapter);
-
-//    new Thread(new Runnable() {
-//      @Override
-//      public void run() {
-//        foodAmount = UniDatabase.getInstance(getContext()).categoryDao().foodAmount();
-//      }
-//    }).start();
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        final List<Display> sums = ((MainActivity) getActivity())
+            .getDatabase(getContext()).recordDao()
+            .getSums();
+        final List<Total> totals = ((MainActivity) getActivity()).getDatabase(getContext())
+            .totalDao().getAll();
+        getActivity().runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            if (!sums.isEmpty()) {
+              foodLeft.setText(
+                  String.format("%.2f", totals.get(0).getTotal() + sums.get(0).getAmount()));
+              monthlyLeft.setText(
+                  String.format("%.2f", totals.get(1).getTotal() + sums.get(1).getAmount()));
+              enterLeft.setText(
+                  String.format("%.2f", totals.get(2).getTotal() + sums.get(2).getAmount()));
+              miscLeft.setText(
+                  String.format("%.2f", totals.get(3).getTotal() + sums.get(3).getAmount()));
+            }
+          }
+        });
+      }
+    }).start();
   }
 
 }

@@ -2,6 +2,7 @@ package edu.cnm.deepdive.checkyourself.models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity
@@ -25,14 +26,14 @@ public class Budget {
   @ColumnInfo(name = "spending_total")
   private double spendingTotal;
 
-  @ColumnInfo(name = "food_total")
-  private double foodTotal;
+  @Ignore
+  public Budget() {
 
-  @ColumnInfo(name = "enter_total")
-  private double enterTotal;
+  }
 
-  @ColumnInfo(name = "misc_total")
-  private double miscTotal;
+  private Budget(double income) {
+    this.income = income;
+  }
 
   public long getId() {
     return id;
@@ -82,27 +83,9 @@ public class Budget {
     this.spendingTotal = spendingTotal;
   }
 
-  public double getFoodTotal() {
-    return foodTotal;
-  }
-
-  public void setFoodTotal(double foodTotal) {
-    this.foodTotal = foodTotal;
-  }
-
-  public double getEnterTotal() {
-    return enterTotal;
-  }
-
-  public void setEnterTotal(double enterTotal) {
-    this.enterTotal = enterTotal;
-  }
-
-  public double getMiscTotal() {
-    return miscTotal;
-  }
-
-  public void setMiscTotal(double miscTotal) {
-    this.miscTotal = miscTotal;
+  public static Budget[] populateData() {
+    return new Budget[] {
+        new Budget(0)
+    };
   }
 }

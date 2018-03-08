@@ -32,6 +32,7 @@ public class SpendingFragment extends Fragment {
 
   private FloatingActionButton spendingAdd;
   private ListView spending;
+  private double amountValue;
 
   public SpendingFragment() {
     // Required empty public constructor
@@ -88,16 +89,21 @@ public class SpendingFragment extends Fragment {
       builder.setView(dialogView);
 
       final Spinner tagSpinner = dialogView.findViewById(R.id.tag_spinner);
+      final Spinner signSpinner = dialogView.findViewById(R.id.sign_spinner);
       final EditText amountEdit = dialogView.findViewById(R.id.amount_edit);
       final EditText infoEdit = dialogView.findViewById(R.id.info_edit);
       Button spendingSubmit = dialogView.findViewById(R.id.spending_submit);
+      Button spendingCancel = dialogView.findViewById(R.id.spending_cancel);
 
       new Thread(new Runnable() {
         @Override
         public void run() {
+          String[] signs = {"-", "+"};
           List<Category> tags = ((MainActivity)getActivity()).getDatabase(getContext()).categoryDao().getAll();
-          final ArrayAdapter<Category> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, tags);
-          tagSpinner.setAdapter(adapter);
+          final ArrayAdapter<Category> tagAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, tags);
+          final ArrayAdapter<String> signAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, signs);
+          tagSpinner.setAdapter(tagAdapter);
+          signSpinner.setAdapter(signAdapter);
         }
       }).start();
 
@@ -109,8 +115,11 @@ public class SpendingFragment extends Fragment {
       spendingSubmit.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View v) {
-          final double amountValue = Double.parseDouble(amountEdit.getText().toString());
+          amountValue = Double.parseDouble(amountEdit.getText().toString());
           final String infoValue = infoEdit.getText().toString();
+          if (signSpinner.getSelectedItem().toString().equals("-")) {
+            amountValue = -amountValue;
+          }
 
           new Thread(new Runnable() {
             @Override
@@ -122,6 +131,13 @@ public class SpendingFragment extends Fragment {
             }
           }).start();
           updateDisplay();
+          dialog.dismiss();
+        }
+      });
+
+      spendingCancel.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View v) {
           dialog.dismiss();
         }
       });

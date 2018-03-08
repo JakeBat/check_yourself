@@ -7,7 +7,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(foreignKeys = @ForeignKey(entity = Category.class,
+@Entity(foreignKeys = @ForeignKey(entity = Record.class,
     parentColumns = "id",
     childColumns = "tag_id",
     onDelete = CASCADE))
@@ -19,11 +19,21 @@ public class Record {
   @ColumnInfo(name = "amount")
   private double amount;
 
-  @ColumnInfo(name = "tag_id")
+  @ColumnInfo(name = "tag_id", index = true)
   private long tag_id;
 
   @ColumnInfo(name = "info")
   private String info;
+
+  public Record() {
+
+  }
+
+  public Record(double amount, long tag_id,String info) {
+    this.amount = amount;
+    this.tag_id = tag_id;
+    this.info = info;
+  }
 
   public long getId() {
     return id;
@@ -55,6 +65,15 @@ public class Record {
 
   public void setInfo(String info) {
     this.info = info;
+  }
+
+  public static Record[] populateData() {
+    return new Record[] {
+        new Record(0.00, 1, "N/A"),
+        new Record(0.00, 2, "N/A"),
+        new Record(0.00, 3, "N/A"),
+        new Record(0.00, 4, "N/A"),
+    };
   }
 
 

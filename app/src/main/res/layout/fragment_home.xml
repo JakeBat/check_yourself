@@ -6,29 +6,151 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   tools:context="edu.cnm.deepdive.checkyourself.HomeFragment">
 
-  <!--<resources>-->
-  <!--<style-->
-    <!--android:name="stylesheet"-->
-    <!--android:parent="@res:style/style_to_inherit">-->
-    <!--<item-->
-      <!--android:name="res/stylesheet/stylesheet.css"-->
-      <!--&gt;style_value</item>-->
-  <!--</style>-->
-<!--</resources>-->
-
   <com.jjoe64.graphview.GraphView
     android:layout_width="wrap_content"
     android:layout_height="200dp"
     android:id="@+id/graph"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toTopOf="@+id/home_list"/>
+    app:layout_constraintBottom_toTopOf="@+id/table_title"/>
 
-  <ListView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@id/home_list"
+  <TextView
+    android:id="@+id/table_title"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
+    android:layout_height="wrap_content"
+    android:text="Amounts Left:"
+    android:textSize="20dp"
+    android:gravity="center_horizontal"
+    android:paddingTop="20dp"
     app:layout_constraintTop_toBottomOf="@id/graph"
-    app:layout_constraintBottom_toBottomOf="parent"/>
+    app:layout_constraintBottom_toTopOf="@+id/amount_table"/>
+
+  <TableLayout
+    android:id="@+id/amount_table"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    app:layout_constraintTop_toBottomOf="@id/table_title">
+
+    <TableRow
+      android:paddingStart="10dp">
+
+      <TextView
+        android:labelFor="@+id/food_left"
+        android:text="Food:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:textSize="20dp"/>
+
+      <LinearLayout
+        android:layout_column="1"
+        android:paddingStart="5dp">
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:text="$"/>
+
+        <TextView
+          android:id="@+id/food_left"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20dp"/>
+
+      </LinearLayout>
+
+    </TableRow>
+
+    <TableRow
+      android:paddingStart="10dp">
+
+      <TextView
+        android:labelFor="@+id/monthly_left"
+        android:text="Monthly:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:textSize="20dp"/>
+
+      <LinearLayout
+        android:layout_column="1"
+        android:paddingStart="5dp">
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:text="$"/>
+
+        <TextView
+          android:id="@+id/monthly_left"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20dp"/>
+
+      </LinearLayout>
+
+    </TableRow>
+
+    <TableRow
+      android:paddingStart="10dp">
+
+      <TextView
+        android:labelFor="@+id/enter_left"
+        android:text="Entertainment:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:textSize="20dp"/>
+
+      <LinearLayout
+        android:layout_column="1"
+        android:paddingStart="5dp">
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:text="$"/>
+
+        <TextView
+          android:id="@+id/enter_left"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20dp"/>
+
+      </LinearLayout>
+
+    </TableRow>
+
+    <TableRow
+      android:paddingStart="10dp">
+
+      <TextView
+        android:labelFor="@+id/misc_left"
+        android:text="Miscellaneous:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:textSize="20dp"/>
+
+      <LinearLayout
+        android:layout_column="1"
+        android:paddingStart="5dp">
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:text="$"/>
+
+        <TextView
+          android:id="@+id/misc_left"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20dp"/>
+
+      </LinearLayout>
+
+    </TableRow>
+
+  </TableLayout>
 
 </android.support.constraint.ConstraintLayout>

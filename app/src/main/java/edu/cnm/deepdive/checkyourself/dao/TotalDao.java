@@ -6,25 +6,22 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
-import edu.cnm.deepdive.checkyourself.models.Budget;
+import edu.cnm.deepdive.checkyourself.models.Total;
 import java.util.List;
 
 @Dao
-public interface BudgetDao {
+public interface TotalDao {
 
-  @Query("SELECT * FROM budget")
-  List<Budget> getAll();
-
-  @Query("Select * FROM budget WHERE id = 1")
-  Budget getFirst();
+  @Query("SELECT * FROM total")
+  List<Total> getAll();
 
   @Insert
-  long insert(Budget budget);
+  long insert(Total total);
 
   @Insert
-  void insertAll(Budget... budgets);
+  void insertAll(Total... totals);
 
   @Update(onConflict = REPLACE)
-  void updateBudget(Budget budget);
+  void updateAll(Total... total);
 
 }

@@ -24,6 +24,7 @@ import edu.cnm.deepdive.checkyourself.dao.BudgetDao;
 import edu.cnm.deepdive.checkyourself.models.Budget;
 import edu.cnm.deepdive.checkyourself.models.Category;
 import edu.cnm.deepdive.checkyourself.models.Record;
+import edu.cnm.deepdive.checkyourself.models.Total;
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -43,6 +44,7 @@ public class InputFragment extends Fragment implements TextWatcher {
   private TextView foodTotal;
   private TextView enterTotal;
   private TextView miscTotal;
+  private TextView savingsTotal;
   private double incomeValue;
   private int familyValue;
   private int savingsValue;
@@ -53,6 +55,10 @@ public class InputFragment extends Fragment implements TextWatcher {
   private double miscValue;
   private Button updateButton;
   Budget budget = new Budget();
+  Total totalFood = new Total();
+  Total totalMonthly = new Total();
+  Total totalEnter = new Total();
+  Total totalMisc = new Total();
 
   public InputFragment() {
     // Required empty public constructor
@@ -72,6 +78,7 @@ public class InputFragment extends Fragment implements TextWatcher {
     foodTotal = view.findViewById(R.id.food_total);
     enterTotal = view.findViewById(R.id.enter_total);
     miscTotal = view.findViewById(R.id.misc_total);
+    savingsTotal = view.findViewById(R.id.savings_total);
     incomeEdit.addTextChangedListener(this);
     familyEdit.addTextChangedListener(this);
     savingsEdit.addTextChangedListener(this);
@@ -90,22 +97,34 @@ public class InputFragment extends Fragment implements TextWatcher {
           public void run() {
             List<Budget> budgetList = ((MainActivity) getActivity()).getDatabase(getContext())
                 .budgetDao().getAll();
-            if (!budgetList.isEmpty()) {
+            List<Total> totalList = ((MainActivity) getActivity()).getDatabase(getContext())
+                .totalDao().getAll();
+            if (!budgetList.isEmpty() && !totalList.isEmpty()) {
               budget = budgetList.get(0);
+              totalFood = totalList.get(0);
+              totalMonthly = totalList.get(1);
+              totalEnter = totalList.get(2);
+              totalMisc = totalList.get(3);
             }
             budget.setIncome(incomeValue);
             budget.setFamilySize(familyValue);
             budget.setPercentSavings(savingsValue);
             budget.setMonthlyPayments(monthlyValue);
             budget.setSpendingTotal(totalValue);
-            budget.setFoodTotal(foodValue);
-            budget.setEnterTotal(enterValue);
-            budget.setMiscTotal(miscValue);
+            totalFood.setTotal(foodValue);
+            totalMonthly.setTotal(monthlyValue);
+            totalEnter.setTotal(enterValue);
+            totalMisc.setTotal(miscValue);
+
             if (budgetList.isEmpty()) {
               ((MainActivity) getActivity()).getDatabase(getContext()).budgetDao().insert(budget);
+              ((MainActivity) getActivity()).getDatabase(getContext()).totalDao()
+                  .updateAll(totalFood, totalMonthly, totalEnter, totalMisc);
             } else {
               ((MainActivity) getActivity()).getDatabase(getContext()).budgetDao()
                   .updateBudget(budget);
+              ((MainActivity) getActivity()).getDatabase(getContext()).totalDao()
+                  .updateAll(totalFood, totalMonthly, totalEnter, totalMisc);
             }
           }
         }).start();
@@ -122,9 +141,15 @@ public class InputFragment extends Fragment implements TextWatcher {
       public void run() {
         List<Budget> budgetList = ((MainActivity) getActivity()).getDatabase(getContext())
             .budgetDao().getAll();
-        if (!budgetList.isEmpty()) {
+        List<Total> totalList = ((MainActivity) getActivity()).getDatabase(getContext())
+            .totalDao().getAll();
+        if (!budgetList.isEmpty() && !totalList.isEmpty()) {
           final Budget budget = ((MainActivity) getActivity()).getDatabase(getContext()).budgetDao()
               .getFirst();
+          totalFood = totalList.get(0);
+          totalMonthly = totalList.get(1);
+          totalEnter = totalList.get(2);
+          totalMisc = totalList.get(3);
           getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -133,10 +158,10 @@ public class InputFragment extends Fragment implements TextWatcher {
               savingsEdit.setText(String.format("%d", budget.getPercentSavings()));
               monthlyEdit.setText(String.format("%.2f", budget.getMonthlyPayments()));
               totalEdit.setText(String.format("%.2f", budget.getSpendingTotal()));
-              foodTotal.setText(String.format("%.2f", budget.getFoodTotal()));
-              enterTotal.setText(String.format("%.2f", budget.getEnterTotal()));
-              miscTotal.setText(String.format("%.2f", budget.getMiscTotal()));
-
+              foodTotal.setText(String.format("%.2f", totalFood.getTotal()));
+              enterTotal.setText(String.format("%.2f", totalEnter.getTotal()));
+              miscTotal.setText(String.format("%.2f", totalMisc.getTotal()));
+              savingsTotal.setText(String.format("%.2f", budget.getIncome() * (budget.getPercentSavings() / 100.0)));
             }
           });
         }
@@ -169,8 +194,8 @@ public class InputFragment extends Fragment implements TextWatcher {
       miscValue = ((totalValue - foodValue) * .7);
 
     } catch (NumberFormatException e) {
-      e.printStackTrace();
-      Toast.makeText(getActivity(), "Invalid Input", Toast.LENGTH_LONG).show();
+//      e.printStackTrace();
+//      Toast.makeText(getActivity(), "Invalid Input", Toast.LENGTH_LONG).show();
     }
   }
 }

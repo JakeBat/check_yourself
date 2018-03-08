@@ -24,10 +24,12 @@
           android:text="Monthly Income"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_column="0"/>
+          android:layout_column="0"
+          android:textSize="20dp"/>
 
         <LinearLayout
-          android:layout_column="1">
+          android:layout_column="1"
+          android:paddingStart="5dp">
 
         <TextView
           android:layout_height="wrap_content"
@@ -38,9 +40,8 @@
           android:id="@+id/income_edit"
           android:inputType="numberDecimal"
           android:hint="Monthly income"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="0"
+          android:layout_width="125dp"
+          android:layout_height="30dp"
           android:background="@drawable/border"
           android:paddingStart="5dp"/>
 
@@ -56,18 +57,21 @@
           android:text="Family Size"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_column="0"/>
+          android:layout_column="0"
+          android:layout_gravity="center_vertical"
+          android:textSize="20dp"/>
 
         <LinearLayout
-          android:layout_column="1">
+          android:layout_column="1"
+          android:paddingStart="13dp"
+          >
 
         <EditText
           android:id="@+id/family_edit"
           android:inputType="number"
           android:hint="Size of family"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="0"
+          android:layout_width="125dp"
+          android:layout_height="30dp"
           android:background="@drawable/border"
           android:paddingStart="5dp"/>
 
@@ -89,18 +93,19 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
-          android:layout_column="0"/>
+          android:layout_column="0"
+          android:textSize="20dp"/>
 
         <LinearLayout
-          android:layout_column="1">
+          android:layout_column="1"
+          android:paddingStart="13dp">
 
         <EditText
           android:id="@+id/savings_edit"
           android:inputType="number"
           android:hint="Percent to save"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="0"
+          android:layout_width="125dp"
+          android:layout_height="30dp"
           android:background="@drawable/border"
           android:paddingStart="5dp"/>
 
@@ -122,10 +127,12 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
-          android:layout_column="0"/>
+          android:layout_column="0"
+          android:textSize="20dp"/>
 
         <LinearLayout
-          android:layout_column="1">
+          android:layout_column="1"
+          android:paddingStart="5dp">
 
         <TextView
           android:layout_height="wrap_content"
@@ -136,9 +143,8 @@
           android:id="@+id/monthly_edit"
           android:inputType="numberDecimal"
           android:hint="Monthly payments Total"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="0"
+          android:layout_width="125dp"
+          android:layout_height="30dp"
           android:background="@drawable/border"
           android:paddingStart="5dp"/>
 
@@ -146,7 +152,8 @@
 
       </TableRow>
 
-      <TableRow>
+      <TableRow
+        android:paddingStart="10dp">
 
         <TextView
           android:layout_height="wrap_content"
@@ -164,7 +171,8 @@
 
       </TableRow>
 
-      <TableRow>
+      <TableRow
+        android:paddingStart="10dp">
 
         <TextView
           android:layout_height="wrap_content"
@@ -182,7 +190,8 @@
 
       </TableRow>
 
-      <TableRow>
+      <TableRow
+        android:paddingStart="10dp">
 
         <TextView
           android:layout_height="wrap_content"
@@ -200,7 +209,8 @@
 
       </TableRow>
 
-      <TableRow>
+      <TableRow
+        android:paddingStart="10dp">
 
         <TextView
           android:layout_height="wrap_content"
@@ -218,7 +228,27 @@
 
       </TableRow>
 
-      <TableRow>
+      <TableRow
+        android:paddingStart="10dp">
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:text="Amount to Save: "
+          android:textSize="20dp"
+          android:paddingTop="20dp"/>
+
+        <TextView
+          android:id="@+id/savings_total"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20dp"
+          android:paddingTop="20dp"/>
+
+      </TableRow>
+
+      <TableRow
+        android:paddingStart="10dp">
 
       <Button
         android:id="@+id/update_button"
