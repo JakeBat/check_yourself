@@ -18,7 +18,6 @@ public interface RecordDao {
   @Query("SELECT category.tag, sum(amount) as amount FROM record, category WHERE tag_id = category.id GROUP BY tag_id")
   List<Record.Display> getSums();
 
-
   @Insert
   long insert(Record record);
 

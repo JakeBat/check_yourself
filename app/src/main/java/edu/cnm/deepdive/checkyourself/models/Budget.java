@@ -31,7 +31,7 @@ public class Budget {
 
   }
 
-  private Budget(double income) {
+  public Budget(double income) {
     this.income = income;
   }
 
@@ -84,7 +84,7 @@ public class Budget {
   }
 
   public static Budget[] populateData() {
-    return new Budget[] {
+    return new Budget[]{
         new Budget(0)
     };
   }

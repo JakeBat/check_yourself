@@ -1,8 +1,9 @@
 package edu.cnm.deepdive.checkyourself;
 
 
-import android.graphics.Point;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,28 +13,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
-import android.widget.GridLayout.Alignment;
-import android.widget.GridLayout.LayoutParams;
-import android.widget.GridLayout.Spec;
-import android.widget.GridView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-import edu.cnm.deepdive.checkyourself.dao.BudgetDao;
 import edu.cnm.deepdive.checkyourself.models.Budget;
-import edu.cnm.deepdive.checkyourself.models.Category;
-import edu.cnm.deepdive.checkyourself.models.Record;
 import edu.cnm.deepdive.checkyourself.models.Total;
-import java.lang.ref.WeakReference;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.List;
+import java.util.Objects;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class InputFragment extends Fragment implements TextWatcher {
 
   private EditText incomeEdit;
@@ -53,20 +38,18 @@ public class InputFragment extends Fragment implements TextWatcher {
   private double foodValue;
   private double enterValue;
   private double miscValue;
-  private Button updateButton;
-  Budget budget = new Budget();
-  Total totalFood = new Total();
-  Total totalMonthly = new Total();
-  Total totalEnter = new Total();
-  Total totalMisc = new Total();
+  private Budget budget = new Budget();
+  private Total totalFood = new Total();
+  private Total totalMonthly = new Total();
+  private Total totalEnter = new Total();
+  private Total totalMisc = new Total();
 
   public InputFragment() {
-    // Required empty public constructor
+
   }
 
-
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_input, container, false);
     incomeEdit = view.findViewById(R.id.income_edit);
@@ -74,7 +57,7 @@ public class InputFragment extends Fragment implements TextWatcher {
     savingsEdit = view.findViewById(R.id.savings_edit);
     monthlyEdit = view.findViewById(R.id.monthly_edit);
     totalEdit = view.findViewById(R.id.total_edit);
-    updateButton = view.findViewById(R.id.update_button);
+    Button updateButton = view.findViewById(R.id.update_button);
     foodTotal = view.findViewById(R.id.food_total);
     enterTotal = view.findViewById(R.id.enter_total);
     miscTotal = view.findViewById(R.id.misc_total);
@@ -89,13 +72,13 @@ public class InputFragment extends Fragment implements TextWatcher {
     updateButton.setOnClickListener(new OnClickListener() {
 
 
-
       @Override
       public void onClick(View v) {
         new Thread(new Runnable() {
           @Override
           public void run() {
-            List<Budget> budgetList = ((MainActivity) getActivity()).getDatabase(getContext())
+            List<Budget> budgetList = ((MainActivity) Objects.requireNonNull(getActivity()))
+                .getDatabase(getContext())
                 .budgetDao().getAll();
             List<Total> totalList = ((MainActivity) getActivity()).getDatabase(getContext())
                 .totalDao().getAll();
@@ -135,11 +118,12 @@ public class InputFragment extends Fragment implements TextWatcher {
     return view;
   }
 
-  public void updateDisplay() {
+  private void updateDisplay() {
     new Thread(new Runnable() {
       @Override
       public void run() {
-        List<Budget> budgetList = ((MainActivity) getActivity()).getDatabase(getContext())
+        List<Budget> budgetList = ((MainActivity) Objects.requireNonNull(getActivity()))
+            .getDatabase(getContext())
             .budgetDao().getAll();
         List<Total> totalList = ((MainActivity) getActivity()).getDatabase(getContext())
             .totalDao().getAll();
@@ -151,6 +135,7 @@ public class InputFragment extends Fragment implements TextWatcher {
           totalEnter = totalList.get(2);
           totalMisc = totalList.get(3);
           getActivity().runOnUiThread(new Runnable() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void run() {
               incomeEdit.setText(String.format("%.2f", budget.getIncome()));
@@ -161,7 +146,8 @@ public class InputFragment extends Fragment implements TextWatcher {
               foodTotal.setText(String.format("%.2f", totalFood.getTotal()));
               enterTotal.setText(String.format("%.2f", totalEnter.getTotal()));
               miscTotal.setText(String.format("%.2f", totalMisc.getTotal()));
-              savingsTotal.setText(String.format("%.2f", budget.getIncome() * (budget.getPercentSavings() / 100.0)));
+              savingsTotal.setText(
+                  String.format("%.2f", budget.getIncome() * (budget.getPercentSavings() / 100.0)));
             }
           });
         }

@@ -1,8 +1,10 @@
 package edu.cnm.deepdive.checkyourself;
 
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,32 +20,30 @@ import edu.cnm.deepdive.checkyourself.models.Record.Display;
 import edu.cnm.deepdive.checkyourself.models.Total;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
-  public static final int MAX_VALUE = 100;
-  public static final int GREEN_THRESHOLD = 70;
-  public static final int RED_THRESHOLD = 30;
+  private static final int MAX_VALUE = 100;
+  private static final int GREEN_THRESHOLD = 70;
+  private static final int RED_THRESHOLD = 30;
 
-  List<String> labels = new ArrayList<>();
-  TextView foodLeft;
-  TextView monthlyLeft;
-  TextView enterLeft;
-  TextView miscLeft;
+  private List<String> labels = new ArrayList<>();
+  private TextView foodLeft;
+  private TextView monthlyLeft;
+  private TextView enterLeft;
+  private TextView miscLeft;
 
   public HomeFragment() {
 
   }
 
-
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_home, container, false);
-
     graphSetup(view);
     setupAmountsLeft(view);
-
     return view;
   }
 
@@ -51,13 +51,13 @@ public class HomeFragment extends Fragment {
     new Thread(new Runnable() {
       @Override
       public void run() {
-        List<Display> sums = ((MainActivity) getActivity())
+        List<Display> sums = ((MainActivity) Objects.requireNonNull(getActivity()))
             .getDatabase(getContext()).recordDao()
             .getSums();
         List<Total> totals = ((MainActivity) getActivity()).getDatabase(getContext())
             .totalDao().getAll();
 
-        GraphView graph = (GraphView) view.findViewById(R.id.graph);
+        GraphView graph = view.findViewById(R.id.graph);
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(MAX_VALUE);
         graph.getViewport().setYAxisBoundsManual(true);
@@ -76,8 +76,8 @@ public class HomeFragment extends Fragment {
 
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
         labels.add("");
-        for (int i = 0; i < sums.size(); i++) {
-          String label = sums.get(i).getTag();
+        for (Display sum : sums) {
+          String label = sum.getTag();
           labels.add(label);
         }
         labels.add("");
@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment {
     }).start();
   }
 
-  public void setupAmountsLeft(View view) {
+  private void setupAmountsLeft(View view) {
     foodLeft = view.findViewById(R.id.food_left);
     monthlyLeft = view.findViewById(R.id.monthly_left);
     enterLeft = view.findViewById(R.id.enter_left);
@@ -120,12 +120,13 @@ public class HomeFragment extends Fragment {
     new Thread(new Runnable() {
       @Override
       public void run() {
-        final List<Display> sums = ((MainActivity) getActivity())
+        final List<Display> sums = ((MainActivity) Objects.requireNonNull(getActivity()))
             .getDatabase(getContext()).recordDao()
             .getSums();
         final List<Total> totals = ((MainActivity) getActivity()).getDatabase(getContext())
             .totalDao().getAll();
         getActivity().runOnUiThread(new Runnable() {
+          @SuppressLint("DefaultLocale")
           @Override
           public void run() {
             if (!sums.isEmpty()) {

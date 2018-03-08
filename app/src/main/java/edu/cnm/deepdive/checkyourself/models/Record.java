@@ -29,7 +29,7 @@ public class Record {
 
   }
 
-  public Record(double amount, long tag_id,String info) {
+  private Record(double amount, long tag_id, String info) {
     this.amount = amount;
     this.tag_id = tag_id;
     this.info = info;
@@ -68,7 +68,7 @@ public class Record {
   }
 
   public static Record[] populateData() {
-    return new Record[] {
+    return new Record[]{
         new Record(0.00, 1, "N/A"),
         new Record(0.00, 2, "N/A"),
         new Record(0.00, 3, "N/A"),

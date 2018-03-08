@@ -1,12 +1,11 @@
 package edu.cnm.deepdive.checkyourself;
 
-
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,44 +13,36 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import edu.cnm.deepdive.checkyourself.models.Category;
 import edu.cnm.deepdive.checkyourself.models.Record;
 import edu.cnm.deepdive.checkyourself.models.Record.Display;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SpendingFragment extends Fragment {
 
-  private FloatingActionButton spendingAdd;
   private ListView spending;
   private double amountValue;
 
   public SpendingFragment() {
-    // Required empty public constructor
+
   }
 
-
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
     final View view = inflater.inflate(R.layout.fragment_spending, container, false);
     spending = view.findViewById(R.id.spending);
 
-    spendingAdd = view.findViewById(R.id.spending_add);
+    FloatingActionButton spendingAdd = view.findViewById(R.id.spending_add);
     spendingAdd.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         SpendingDialog spendingDialog = new SpendingDialog();
-        spendingDialog.spendingDialog(view);
+        spendingDialog.spendingDialog();
 
       }
     });
@@ -67,8 +58,9 @@ public class SpendingFragment extends Fragment {
       public void run() {
 
         List<Display> records = UniDatabase.getInstance(getContext()).recordDao().getSummary();
-        final ArrayAdapter<Display> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, records);
-        getActivity().runOnUiThread(new Runnable() {
+        final ArrayAdapter<Display> adapter = new ArrayAdapter<>(getActivity(),
+            android.R.layout.simple_list_item_1, records);
+        Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
           @Override
           public void run() {
             spending.setAdapter(adapter);
@@ -80,11 +72,12 @@ public class SpendingFragment extends Fragment {
 
   private class SpendingDialog {
 
-    public void spendingDialog(View view) {
+    public void spendingDialog() {
       AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
       LayoutInflater inflater = getLayoutInflater();
-      final View dialogView = inflater.inflate(R.layout.spending_dialog,null);
+      @SuppressLint("InflateParams") final View dialogView = inflater
+          .inflate(R.layout.spending_dialog, null);
 
       builder.setView(dialogView);
 
@@ -99,14 +92,16 @@ public class SpendingFragment extends Fragment {
         @Override
         public void run() {
           String[] signs = {"-", "+"};
-          List<Category> tags = ((MainActivity)getActivity()).getDatabase(getContext()).categoryDao().getAll();
-          final ArrayAdapter<Category> tagAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, tags);
-          final ArrayAdapter<String> signAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, signs);
+          List<Category> tags = ((MainActivity) Objects.requireNonNull(getActivity()))
+              .getDatabase(getContext()).categoryDao().getAll();
+          final ArrayAdapter<Category> tagAdapter = new ArrayAdapter<>(getActivity(),
+              android.R.layout.simple_spinner_dropdown_item, tags);
+          final ArrayAdapter<String> signAdapter = new ArrayAdapter<>(getActivity(),
+              android.R.layout.simple_spinner_dropdown_item, signs);
           tagSpinner.setAdapter(tagAdapter);
           signSpinner.setAdapter(signAdapter);
         }
       }).start();
-
 
       final Record record = new Record();
 
@@ -127,7 +122,8 @@ public class SpendingFragment extends Fragment {
               record.setTag_id(((Category) tagSpinner.getSelectedItem()).getId());
               record.setAmount(amountValue);
               record.setInfo(infoValue);
-              ((MainActivity)getActivity()).getDatabase(getContext()).recordDao().insert(record);
+              ((MainActivity) Objects.requireNonNull(getActivity())).getDatabase(getContext())
+                  .recordDao().insert(record);
             }
           }).start();
           updateDisplay();
@@ -144,6 +140,5 @@ public class SpendingFragment extends Fragment {
 
       dialog.show();
     }
-
   }
 }

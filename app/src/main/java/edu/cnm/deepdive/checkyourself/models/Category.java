@@ -40,7 +40,7 @@ public class Category {
   }
 
   public static Category[] populateData() {
-    return new Category[] {
+    return new Category[]{
         new Category("Food"),
         new Category("Monthly"),
         new Category("Enter."),

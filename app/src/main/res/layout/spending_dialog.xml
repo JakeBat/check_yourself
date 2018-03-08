@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
@@ -15,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:labelFor="@+id/tag_spinner"
-        android:text="Tag"/>
+        android:text="@string/tag"/>
 
       <Spinner
         android:id="@+id/tag_spinner"
@@ -33,25 +34,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:labelFor="@+id/amount_edit"
-        android:text="Amount"
+        android:text="@string/amount"
         android:layout_gravity="center_vertical"/>
 
       <LinearLayout>
 
-      <Spinner
-        android:id="@+id/sign_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"/>
+        <Spinner
+          android:id="@+id/sign_spinner"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:background="@android:drawable/btn_dropdown"
+          android:spinnerMode="dropdown"/>
 
-      <EditText
-        android:id="@+id/amount_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="amount of purchase"
-        android:inputType="numberDecimal"
-        android:text="0"/>
+        <EditText
+          android:id="@+id/amount_edit"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:hint="@string/amount_hint"
+          android:inputType="numberDecimal"
+          android:text="@string/zero"/>
 
       </LinearLayout>
 
@@ -64,42 +65,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:labelFor="@+id/info_edit"
-        android:text="Info"/>
+        android:text="@string/info"/>
 
       <EditText
         android:id="@+id/info_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Info on purchase"
+        android:hint="@string/info_hint"
         android:inputType="text"
-        android:text="N/A"/>
+        android:text="@string/n_a"/>
 
     </TableRow>
 
   </TableLayout>
 
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
 
-      <Button
-        android:id="@+id/spending_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:layout_gravity="center_horizontal"
-        android:text="Submit"/>
+    <Button
+      android:id="@+id/spending_submit"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:text="@string/submit"
+      tools:ignore="ButtonStyle"/>
 
-      <Button
-        android:id="@+id/spending_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Cancel"
-        android:layout_column="0"/>
+    <Button
+      android:id="@+id/spending_cancel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:text="@string/cancel"
+      tools:ignore="ButtonOrder,ButtonStyle"/>
 
-      </LinearLayout>
-
+  </LinearLayout>
 
 </LinearLayout>

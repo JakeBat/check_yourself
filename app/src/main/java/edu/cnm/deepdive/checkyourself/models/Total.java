@@ -26,7 +26,7 @@ public class Total {
 
   }
 
-  public Total(long tag_id) {
+  private Total(long tag_id) {
     this.tag_id = tag_id;
   }
 
@@ -55,7 +55,7 @@ public class Total {
   }
 
   public static Total[] populateData() {
-    return new Total[] {
+    return new Total[]{
         new Total(1),
         new Total(2),
         new Total(3),

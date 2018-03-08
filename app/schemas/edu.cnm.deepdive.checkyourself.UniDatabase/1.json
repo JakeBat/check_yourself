@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a5d75216a0e03245d153cf7f62146c89",
+    "identityHash": "1890b6cff9ca40c0cffd8e5d242e1586",
     "entities": [
       {
         "tableName": "Category",
@@ -115,7 +115,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Record_tag_id",
+            "unique": false,
+            "columnNames": [
+              "tag_id"
+            ],
+            "createSql": "CREATE  INDEX `index_Record_tag_id` ON `${TABLE_NAME}` (`tag_id`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "Record",
@@ -159,7 +168,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Total_tag_id",
+            "unique": false,
+            "columnNames": [
+              "tag_id"
+            ],
+            "createSql": "CREATE  INDEX `index_Total_tag_id` ON `${TABLE_NAME}` (`tag_id`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "Category",
@@ -177,7 +195,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a5d75216a0e03245d153cf7f62146c89\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1890b6cff9ca40c0cffd8e5d242e1586\")"
     ]
   }
 }
