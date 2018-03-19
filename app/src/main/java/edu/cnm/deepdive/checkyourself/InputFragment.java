@@ -70,8 +70,6 @@ public class InputFragment extends Fragment implements TextWatcher {
     updateDisplay();
 
     updateButton.setOnClickListener(new OnClickListener() {
-
-
       @Override
       public void onClick(View v) {
         new Thread(new Runnable() {
