@@ -6,9 +6,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer.GridStyle;
@@ -33,6 +36,8 @@ public class HomeFragment extends Fragment {
   private TextView monthlyLeft;
   private TextView enterLeft;
   private TextView miscLeft;
+  private Button mapButton;
+
 
   public HomeFragment() {
 
@@ -42,8 +47,18 @@ public class HomeFragment extends Fragment {
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_home, container, false);
+    mapButton = view.findViewById(R.id.map_button);
     graphSetup(view);
     setupAmountsLeft(view);
+
+    mapButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        MapFragment mapFragment = new MapFragment();
+        transaction.replace(R.id.content, mapFragment).addToBackStack("home").commit();
+      }
+    });
     return view;
   }
 
@@ -144,5 +159,4 @@ public class HomeFragment extends Fragment {
       }
     }).start();
   }
-
 }
