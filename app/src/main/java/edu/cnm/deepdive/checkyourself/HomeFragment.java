@@ -2,6 +2,7 @@ package edu.cnm.deepdive.checkyourself;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -54,9 +55,8 @@ public class HomeFragment extends Fragment {
     mapButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        MapFragment mapFragment = new MapFragment();
-        transaction.replace(R.id.content, mapFragment).addToBackStack("home").commit();
+        Intent intent = new Intent(getActivity(), LocationAlertActivity.class);
+        startActivity(intent);
       }
     });
     return view;

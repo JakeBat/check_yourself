@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
     BottomNavigationView navigation = findViewById(R.id.navigation);
