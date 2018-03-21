@@ -49,7 +49,6 @@ public class MapService extends IntentService {
   }
 
   private void notifyLocationAlert() {
-
     String CHANNEL_ID = "Check Yourself";
     NotificationCompat.Builder builder =
         new NotificationCompat.Builder(this, CHANNEL_ID)
