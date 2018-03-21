@@ -44,7 +44,7 @@ public class MapActivity extends AppCompatActivity
     implements OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener,
     LocationListener {
 
-  private static final int PROXIMITY_RADIUS = 1000;
+  private static final int PROXIMITY_RADIUS = 100;
   private static final int GEOFENCE_RADIUS = 50;
   private static final int GEOFENCE_EXPIRATION = 50000;
 
@@ -170,7 +170,7 @@ public class MapActivity extends AppCompatActivity
         .setExpirationDuration(GEOFENCE_EXPIRATION)
         .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
             Geofence.GEOFENCE_TRANSITION_DWELL)
-        .setLoiteringDelay(1000)
+        .setLoiteringDelay(500)
         .build();
   }
 
@@ -246,7 +246,14 @@ public class MapActivity extends AppCompatActivity
         double lng;
         lng = Double.parseDouble(aNearbyPlacesList.get("lng"));
         String placeName = aNearbyPlacesList.get("place_name");
-        String vicinity = aNearbyPlacesList.get("vicinity");
+        String types = aNearbyPlacesList.get("types");
+        LatLng latLng = new LatLng(lat, lng);
+        markerOptions.position(latLng);
+        markerOptions.title(placeName + " : " + types);
+        mMap.addMarker(markerOptions);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
         String key = "" + lat + "-" + lng;
         Geofence geofence = getGeofence(lat, lng, key);
         if (ActivityCompat
@@ -262,13 +269,6 @@ public class MapActivity extends AppCompatActivity
 
               }
             });
-        LatLng latLng = new LatLng(lat, lng);
-        markerOptions.position(latLng);
-        markerOptions.title(placeName + " : " + vicinity);
-        mMap.addMarker(markerOptions);
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
       }
     }
   }

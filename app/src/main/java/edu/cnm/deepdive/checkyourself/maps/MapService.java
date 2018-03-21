@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
+import edu.cnm.deepdive.checkyourself.MainActivity;
 import edu.cnm.deepdive.checkyourself.R;
 
 public class MapService extends IntentService {
@@ -48,7 +49,8 @@ public class MapService extends IntentService {
   }
 
   private void notifyLocationAlert() {
-    String CHANNEL_ID = "Zoftino";
+
+    String CHANNEL_ID = "Check Yourself";
     NotificationCompat.Builder builder =
         new NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.notification_ic)
@@ -59,5 +61,6 @@ public class MapService extends IntentService {
     NotificationManager mNotificationManager =
         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     mNotificationManager.notify(0, builder.build());
+
   }
 }
