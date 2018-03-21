@@ -7,7 +7,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +30,7 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,14 +43,16 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import java.util.HashMap;
+import java.util.List;
 
 public class LocationAlertActivity extends AppCompatActivity
     implements OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener,
-    com.google.android.gms.location.LocationListener {
+    LocationListener {
 
   private static final int LOC_PERM_REQ_CODE = 1;
   //meters
-  private static final int GEOFENCE_RADIUS = 500;
+  private static final int GEOFENCE_RADIUS = 50;
   //in milli seconds
   private static final int GEOFENCE_EXPIRATION = 600;
 
@@ -58,11 +61,10 @@ public class LocationAlertActivity extends AppCompatActivity
   private GeofencingClient geofencingClient;
   double latitude;
   double longitude;
-  private int PROXIMITY_RADIUS = 10000;
+  private int PROXIMITY_RADIUS = 1000;
   GoogleApiClient mGoogleApiClient;
   Location mLastLocation;
   Marker mCurrLocationMarker;
-  LocationRequest mLocationRequest;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +75,8 @@ public class LocationAlertActivity extends AppCompatActivity
     if (!CheckGooglePlayServices()) {
       Log.d("onCreate", "Finishing test case since Google Play Services are not available");
       finish();
-    }
-    else {
-      Log.d("onCreate","Google Play Services available.");
+    } else {
+      Log.d("onCreate", "Google Play Services available.");
     }
 
     Toolbar tb = findViewById(R.id.toolbar);
@@ -104,6 +105,7 @@ public class LocationAlertActivity extends AppCompatActivity
     Button btnRestaurant = (Button) findViewById(R.id.btnRestaurant);
     btnRestaurant.setOnClickListener(new View.OnClickListener() {
       String Restaurant = "restaurant";
+
       @Override
       public void onClick(View v) {
         Log.d("onClick", "Button is Clicked");
@@ -115,13 +117,14 @@ public class LocationAlertActivity extends AppCompatActivity
         Log.d("onClick", url);
         GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
         getNearbyPlacesData.execute(DataTransfer);
-        Toast.makeText(LocationAlertActivity.this,"Nearby Restaurants", Toast.LENGTH_LONG).show();
+        Toast.makeText(LocationAlertActivity.this, "Nearby Restaurants", Toast.LENGTH_LONG).show();
       }
     });
 
     Button btnHospital = (Button) findViewById(R.id.btnHospital);
     btnHospital.setOnClickListener(new View.OnClickListener() {
       String Hospital = "hospital";
+
       @Override
       public void onClick(View v) {
         Log.d("onClick", "Button is Clicked");
@@ -133,13 +136,14 @@ public class LocationAlertActivity extends AppCompatActivity
         Log.d("onClick", url);
         GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
         getNearbyPlacesData.execute(DataTransfer);
-        Toast.makeText(LocationAlertActivity.this,"Nearby Hospitals", Toast.LENGTH_LONG).show();
+        Toast.makeText(LocationAlertActivity.this, "Nearby Hospitals", Toast.LENGTH_LONG).show();
       }
     });
 
     Button btnSchool = (Button) findViewById(R.id.btnSchool);
     btnSchool.setOnClickListener(new View.OnClickListener() {
       String School = "school";
+
       @Override
       public void onClick(View v) {
         Log.d("onClick", "Button is Clicked");
@@ -154,10 +158,9 @@ public class LocationAlertActivity extends AppCompatActivity
         Log.d("onClick", url);
         GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
         getNearbyPlacesData.execute(DataTransfer);
-        Toast.makeText(LocationAlertActivity.this,"Nearby Schools", Toast.LENGTH_LONG).show();
+        Toast.makeText(LocationAlertActivity.this, "Nearby Schools", Toast.LENGTH_LONG).show();
       }
     });
-
 
     mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
       @Override
@@ -177,13 +180,6 @@ public class LocationAlertActivity extends AppCompatActivity
           != PackageManager.PERMISSION_GRANTED
           && ActivityCompat.checkSelfPermission(this, permission.ACCESS_COARSE_LOCATION)
           != PackageManager.PERMISSION_GRANTED) {
-        // TODO: Consider calling
-        //    ActivityCompat#requestPermissions
-        // here to request the missing permissions, and then overriding
-        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-        //                                          int[] grantResults)
-        // to handle the case where the user grants the permission. See the documentation
-        // for ActivityCompat#requestPermissions for more details.
         return;
       }
       mMap.setMyLocationEnabled(true);
@@ -236,7 +232,8 @@ public class LocationAlertActivity extends AppCompatActivity
           });
     }
   }
-  private void removeLocationAlert(){
+
+  private void removeLocationAlert() {
     if (isLocationAccessPermitted()) {
       requestLocationAccessPermission();
     } else {
@@ -248,7 +245,7 @@ public class LocationAlertActivity extends AppCompatActivity
                 Toast.makeText(LocationAlertActivity.this,
                     "Location alters have been removed",
                     Toast.LENGTH_SHORT).show();
-              }else{
+              } else {
                 Toast.makeText(LocationAlertActivity.this,
                     "Location alters could not be removed",
                     Toast.LENGTH_SHORT).show();
@@ -257,6 +254,7 @@ public class LocationAlertActivity extends AppCompatActivity
           });
     }
   }
+
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
       @NonNull int[] grantResults) {
@@ -275,11 +273,13 @@ public class LocationAlertActivity extends AppCompatActivity
 
     }
   }
+
   private PendingIntent getGeofencePendingIntent() {
     Intent intent = new Intent(this, LocationAlertIntentService.class);
     return PendingIntent.getService(this, 0, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
   }
+
   private GeofencingRequest getGeofencingRequest(Geofence geofence) {
     GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
 
@@ -298,12 +298,14 @@ public class LocationAlertActivity extends AppCompatActivity
         .setLoiteringDelay(1000)
         .build();
   }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.menu, menu);
     return true;
   }
+
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
@@ -319,8 +321,8 @@ public class LocationAlertActivity extends AppCompatActivity
   private boolean CheckGooglePlayServices() {
     GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
     int result = googleAPI.isGooglePlayServicesAvailable(this);
-    if(result != ConnectionResult.SUCCESS) {
-      if(googleAPI.isUserResolvableError(result)) {
+    if (result != ConnectionResult.SUCCESS) {
+      if (googleAPI.isUserResolvableError(result)) {
         googleAPI.getErrorDialog(this, result,
             0).show();
       }
@@ -339,27 +341,34 @@ public class LocationAlertActivity extends AppCompatActivity
   }
 
   private String getUrl(double latitude, double longitude, String nearbyPlace) {
-    StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+    StringBuilder googlePlacesUrl = new StringBuilder(
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
     googlePlacesUrl.append("location=" + latitude + "," + longitude);
     googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
     googlePlacesUrl.append("&type=" + nearbyPlace);
     googlePlacesUrl.append("&sensor=true");
-    googlePlacesUrl.append("&key=" + "AIzaSyATuUiZUkEc_UgHuqsBJa1oqaODI-3mLs0");
+    googlePlacesUrl.append("&key=" + "AIzaSyA1aC7-515WVJMGQOB1xMMWKh6UHL1N9GE");
     Log.d("getUrl", googlePlacesUrl.toString());
     return (googlePlacesUrl.toString());
   }
 
   @Override
   public void onConnected(@Nullable Bundle bundle) {
-    mLocationRequest = new LocationRequest();
-    mLocationRequest.setInterval(1000);
-    mLocationRequest.setFastestInterval(1000);
-    mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+    LocationRequest mLocationRequest = createLocationRequest();
     if (ContextCompat.checkSelfPermission(this,
         Manifest.permission.ACCESS_FINE_LOCATION)
         == PackageManager.PERMISSION_GRANTED) {
-      LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+      LocationServices.FusedLocationApi
+          .requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
+  }
+
+  private LocationRequest createLocationRequest() {
+    LocationRequest mLocationRequest = new LocationRequest();
+    mLocationRequest.setInterval(6000);
+    mLocationRequest.setFastestInterval(1000);
+    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    return mLocationRequest;
   }
 
   @Override
@@ -394,9 +403,9 @@ public class LocationAlertActivity extends AppCompatActivity
     //move map camera
     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
-    Toast.makeText(LocationAlertActivity.this,"Your Current Location", Toast.LENGTH_LONG).show();
+    Toast.makeText(LocationAlertActivity.this, "Your Current Location", Toast.LENGTH_LONG).show();
 
-    Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f",latitude,longitude));
+    Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
 
     //stop location updates
     if (mGoogleApiClient != null) {
@@ -404,6 +413,86 @@ public class LocationAlertActivity extends AppCompatActivity
       Log.d("onLocationChanged", "Removing Location Updates");
     }
     Log.d("onLocationChanged", "Exit");
+
+    String url = getUrl(latitude, longitude, "department_store");
+    Object[] DataTransfer = new Object[2];
+    DataTransfer[0] = mMap;
+    DataTransfer[1] = url;
+    GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+    getNearbyPlacesData.execute(DataTransfer);
+  }
+
+  public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
+
+    String googlePlacesData;
+    GoogleMap mMap;
+    String url;
+
+    @Override
+    protected String doInBackground(Object... params) {
+      try {
+        Log.d("GetNearbyPlacesData", "doInBackground entered");
+        mMap = (GoogleMap) params[0];
+        url = (String) params[1];
+        DownloadUrl downloadUrl = new DownloadUrl();
+        googlePlacesData = downloadUrl.readUrl(url);
+        Log.d("GooglePlacesReadTask", "doInBackground Exit");
+      } catch (Exception e) {
+        Log.d("GooglePlacesReadTask", e.toString());
+      }
+      return googlePlacesData;
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+      Log.d("GooglePlacesReadTask", "onPostExecute Entered");
+      List<HashMap<String, String>> nearbyPlacesList = null;
+      DataParser dataParser = new DataParser();
+      nearbyPlacesList = dataParser.parse(result);
+      ShowNearbyPlaces(nearbyPlacesList);
+      Log.d("GooglePlacesReadTask", "onPostExecute Exit");
+    }
+
+    private void ShowNearbyPlaces(List<HashMap<String, String>> nearbyPlacesList) {
+      for (int i = 0; i < nearbyPlacesList.size(); i++) {
+        Log.d("onPostExecute", "Entered into showing locations");
+        MarkerOptions markerOptions = new MarkerOptions();
+        HashMap<String, String> googlePlace = nearbyPlacesList.get(i);
+        double lat = Double.parseDouble(googlePlace.get("lat"));
+        double lng = Double.parseDouble(googlePlace.get("lng"));
+        String placeName = googlePlace.get("place_name");
+        String vicinity = googlePlace.get("vicinity");
+        String key = "" + lat + "-" + lng;
+        Geofence geofence = getGeofence(lat, lng, key);
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+          // TODO: Consider calling
+          //    ActivityCompat#requestPermissions
+          // here to request the missing permissions, and then overriding
+          //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+          //                                          int[] grantResults)
+          // to handle the case where the user grants the permission. See the documentation
+          // for ActivityCompat#requestPermissions for more details.
+          return;
+        }
+        geofencingClient.addGeofences(getGeofencingRequest(geofence),
+            getGeofencePendingIntent())
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
+              @Override
+              public void onComplete(@NonNull Task<Void> task) {
+
+              }
+            });
+        LatLng latLng = new LatLng(lat, lng);
+        markerOptions.position(latLng);
+        markerOptions.title(placeName + " : " + vicinity);
+        mMap.addMarker(markerOptions);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+      }
+    }
   }
 
 }

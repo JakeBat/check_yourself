@@ -1,6 +1,8 @@
 package edu.cnm.deepdive.checkyourself;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -44,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    Intent intent = new Intent(this, LocationAlertIntentService.class);
+    PendingIntent.getService(this, 0, intent,
+        PendingIntent.FLAG_UPDATE_CURRENT);
 
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
