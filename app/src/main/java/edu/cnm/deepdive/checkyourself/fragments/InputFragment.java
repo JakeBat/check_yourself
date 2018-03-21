@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.checkyourself;
+package edu.cnm.deepdive.checkyourself.fragments;
 
 
 import android.annotation.SuppressLint;
@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import edu.cnm.deepdive.checkyourself.MainActivity;
+import edu.cnm.deepdive.checkyourself.R;
 import edu.cnm.deepdive.checkyourself.models.Budget;
 import edu.cnm.deepdive.checkyourself.models.Total;
 import java.util.List;

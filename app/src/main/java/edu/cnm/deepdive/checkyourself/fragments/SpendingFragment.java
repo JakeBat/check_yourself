@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.checkyourself;
+package edu.cnm.deepdive.checkyourself.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -15,6 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import edu.cnm.deepdive.checkyourself.MainActivity;
+import edu.cnm.deepdive.checkyourself.R;
+import edu.cnm.deepdive.checkyourself.UniDatabase;
 import edu.cnm.deepdive.checkyourself.models.Category;
 import edu.cnm.deepdive.checkyourself.models.Record;
 import edu.cnm.deepdive.checkyourself.models.Record.Display;

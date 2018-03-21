@@ -3,7 +3,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  tools:context="edu.cnm.deepdive.checkyourself.InputFragment">
+  tools:context="edu.cnm.deepdive.checkyourself.fragments.InputFragment">
 
   <TableLayout
     android:layout_width="match_parent"

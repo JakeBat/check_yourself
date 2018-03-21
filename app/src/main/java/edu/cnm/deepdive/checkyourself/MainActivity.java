@@ -9,6 +9,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import edu.cnm.deepdive.checkyourself.fragments.HomeFragment;
+import edu.cnm.deepdive.checkyourself.fragments.InputFragment;
+import edu.cnm.deepdive.checkyourself.fragments.SpendingFragment;
+import edu.cnm.deepdive.checkyourself.maps.LocationAlertIntentService;
 
 public class MainActivity extends AppCompatActivity {
 

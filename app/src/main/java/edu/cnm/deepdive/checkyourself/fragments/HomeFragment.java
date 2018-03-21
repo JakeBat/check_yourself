@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.checkyourself;
+package edu.cnm.deepdive.checkyourself.fragments;
 
 
 import android.annotation.SuppressLint;
@@ -20,6 +20,9 @@ import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
+import edu.cnm.deepdive.checkyourself.LocationAlertActivity;
+import edu.cnm.deepdive.checkyourself.MainActivity;
+import edu.cnm.deepdive.checkyourself.R;
 import edu.cnm.deepdive.checkyourself.models.Record.Display;
 import edu.cnm.deepdive.checkyourself.models.Total;
 import java.util.ArrayList;
