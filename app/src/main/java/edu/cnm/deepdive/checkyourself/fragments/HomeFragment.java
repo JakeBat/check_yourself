@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +19,7 @@ import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import edu.cnm.deepdive.checkyourself.LocationAlertActivity;
+import edu.cnm.deepdive.checkyourself.maps.MapActivity;
 import edu.cnm.deepdive.checkyourself.MainActivity;
 import edu.cnm.deepdive.checkyourself.R;
 import edu.cnm.deepdive.checkyourself.models.Record.Display;
@@ -58,7 +57,7 @@ public class HomeFragment extends Fragment {
     mapButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(getActivity(), LocationAlertActivity.class);
+        Intent intent = new Intent(getActivity(), MapActivity.class);
         startActivity(intent);
       }
     });

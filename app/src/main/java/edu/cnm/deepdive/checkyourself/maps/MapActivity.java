@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.checkyourself;
+package edu.cnm.deepdive.checkyourself.maps;
 
 import android.Manifest;
 import android.Manifest.permission;
@@ -36,13 +36,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import edu.cnm.deepdive.checkyourself.maps.DataParser;
-import edu.cnm.deepdive.checkyourself.maps.DownloadUrl;
-import edu.cnm.deepdive.checkyourself.maps.LocationAlertIntentService;
+import edu.cnm.deepdive.checkyourself.R;
 import java.util.HashMap;
 import java.util.List;
 
-public class LocationAlertActivity extends AppCompatActivity
+public class MapActivity extends AppCompatActivity
     implements OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener,
     LocationListener {
 
@@ -58,7 +56,7 @@ public class LocationAlertActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_location_alert);
+    setContentView(R.layout.activity_map);
     if (!CheckGooglePlayServices()) {
       Log.d("onCreate", "Finishing test case since Google Play Services are not available");
       finish();
@@ -153,7 +151,7 @@ public class LocationAlertActivity extends AppCompatActivity
   }
 
   private PendingIntent getGeofencePendingIntent() {
-    Intent intent = new Intent(this, LocationAlertIntentService.class);
+    Intent intent = new Intent(this, MapService.class);
     return PendingIntent.getService(this, 0, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
   }

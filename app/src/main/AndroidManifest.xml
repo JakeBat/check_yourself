@@ -3,13 +3,12 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="edu.cnm.deepdive.checkyourself">
 
-  <uses-permission android:name="com.androidtutorialpoint.mymapsappsdirection.permission.MAPS_RECEIVE" />
+  <uses-permission android:name="com.androidtutorialpoint.mymapsappsdirection.permission.MAPS_RECEIVE"/>
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
   <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-  <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/> // REMOVE THIS!
 
   <application
     android:allowBackup="true"
@@ -28,12 +27,10 @@
       android:value="@integer/google_play_services_version"/>
 
     <activity
-      android:name="edu.cnm.deepdive.checkyourself.LocationAlertActivity"
+      android:name="edu.cnm.deepdive.checkyourself.maps.MapActivity"
       android:label="@string/title_activity_location_alert"
       android:theme="@style/Theme.AppCompat.NoActionBar">
-
     </activity>
-
     <activity
       android:label="@string/app_name"
       android:name=".MainActivity">
@@ -44,8 +41,7 @@
     </activity>
 
     <service
-      android:name=".maps.LocationAlertIntentService"
-      android:allowBackup="true"></service>
+      android:name=".maps.MapService"
+      android:allowBackup="true"/>
   </application>
-
 </manifest>

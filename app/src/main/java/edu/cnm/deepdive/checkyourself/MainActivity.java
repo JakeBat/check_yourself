@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import edu.cnm.deepdive.checkyourself.fragments.HomeFragment;
 import edu.cnm.deepdive.checkyourself.fragments.InputFragment;
 import edu.cnm.deepdive.checkyourself.fragments.SpendingFragment;
-import edu.cnm.deepdive.checkyourself.maps.LocationAlertIntentService;
+import edu.cnm.deepdive.checkyourself.maps.MapService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    Intent intent = new Intent(this, LocationAlertIntentService.class);
+    Intent intent = new Intent(this, MapService.class);
     PendingIntent.getService(this, 0, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
 

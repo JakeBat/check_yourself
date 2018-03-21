@@ -11,11 +11,11 @@ import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
 import edu.cnm.deepdive.checkyourself.R;
 
-public class LocationAlertIntentService extends IntentService {
+public class MapService extends IntentService {
 
   private static final String IDENTIFIER = "LocationAlertIS";
 
-  public LocationAlertIntentService() {
+  public MapService() {
     super(IDENTIFIER);
   }
 
@@ -51,7 +51,7 @@ public class LocationAlertIntentService extends IntentService {
     String CHANNEL_ID = "Zoftino";
     NotificationCompat.Builder builder =
         new NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.icon)
+            .setSmallIcon(R.drawable.notification_ic)
             .setContentTitle("Budget Left!")
             .setContentText(
                 String.format("You have $%.2f to spend on %s this month", 100.45, "Food"));
