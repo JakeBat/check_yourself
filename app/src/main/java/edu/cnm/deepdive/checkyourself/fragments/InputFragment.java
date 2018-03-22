@@ -21,6 +21,13 @@ import edu.cnm.deepdive.checkyourself.models.Total;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * <code>InputFragment</code> contains four <code>EditText</code> fields that take user
+ * input values and stores them in the data base. It also contains five <code>TextView</code>'s
+ * that read from the database to display total monthly amounts for categories of the budget.
+ *
+ * @author Jake Batchelor
+ */
 public class InputFragment extends Fragment implements TextWatcher {
 
   private EditText incomeEdit;
@@ -46,6 +53,9 @@ public class InputFragment extends Fragment implements TextWatcher {
   private Total totalEnter = new Total();
   private Total totalMisc = new Total();
 
+  /**
+   * Default constructor for the fragment.
+   */
   public InputFragment() {
 
   }

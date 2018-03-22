@@ -24,11 +24,18 @@ import edu.cnm.deepdive.checkyourself.models.Record.Display;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * <code>SpendingFragment</code> is comprised entirely of a <code>ListView</code> that reads
+ * from the database to display a list of the users transactions.
+ */
 public class SpendingFragment extends Fragment {
 
   private ListView spending;
   private double amountValue;
 
+  /**
+   * Default constructor for the fragment.
+   */
   public SpendingFragment() {
 
   }
@@ -75,6 +82,10 @@ public class SpendingFragment extends Fragment {
 
   private class SpendingDialog {
 
+    /**
+     * Creates an <code>AlertDialog</code> that allows the user to input transactions and
+     * store them in the database for display in the <code>SpendingFragment</code>.
+     */
     public void spendingDialog() {
       AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 

@@ -9,6 +9,11 @@ import android.arch.persistence.room.Update;
 import edu.cnm.deepdive.checkyourself.models.Total;
 import java.util.List;
 
+/**
+ * <code>Dao</code> for the <code>Total</code> entity.
+ *
+ * @author Jake Batchelor
+ */
 @Dao
 public interface TotalDao {
 

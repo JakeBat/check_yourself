@@ -6,6 +6,11 @@ import android.arch.persistence.room.Query;
 import edu.cnm.deepdive.checkyourself.models.Category;
 import java.util.List;
 
+/**
+ * <code>Dao</code> for the <code>Category</code> entity.
+ *
+ * @author Jake Batchelor
+ */
 @Dao
 public interface CategoryDao {
 

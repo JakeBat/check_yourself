@@ -6,6 +6,11 @@ import android.arch.persistence.room.Query;
 import edu.cnm.deepdive.checkyourself.models.Record;
 import java.util.List;
 
+/**
+ * <code>Dao</code> for the <code>Record</code> entity.
+ *
+ * @author Jake Batchelor
+ */
 @Dao
 public interface RecordDao {
 

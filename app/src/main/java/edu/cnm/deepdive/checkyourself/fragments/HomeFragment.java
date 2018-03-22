@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -62,6 +61,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * <code>HomeFragment</code> displays a graph that shows the remaining percentage of the categories in the
+ * budgets. It also contains four text views that display the actual dollar value remaining. The last part
+ * of the fragment is the Google Map that display's at the bottom to enable the location services and notification
+ * to work as intended, showing all the requested POI's and geofences.
+ *
+ * @author Jake Batchelor
+ */
 public class HomeFragment extends Fragment implements OnMapReadyCallback, ConnectionCallbacks,
     OnConnectionFailedListener,
     LocationListener {
@@ -84,6 +91,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
   private Marker mCurrLocationMarker;
 
 
+  /**
+   * Default constructor for the fragment.
+   */
   public HomeFragment() {
 
   }
@@ -108,6 +118,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
     return view;
   }
 
+  /**
+   * Sets up the graph for display in the <code>View</code>.
+   *
+   * @param view <code>View</code> that's inflated in the <code>onCreateView</code> Method
+   */
   private void graphSetup(final View view) {
     new Thread(new Runnable() {
       @Override
@@ -172,6 +187,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
     }).start();
   }
 
+  /**
+   * Sets up the <code>TextView</code>'s displayed in the <code>View</code>.
+   *
+   * @param view <code>View</code> that's inflated in the <code>onCreateView</code> Method
+   */
   private void setupAmountsLeft(View view) {
     foodLeft = view.findViewById(R.id.food_left);
     monthlyLeft = view.findViewById(R.id.monthly_left);
@@ -215,6 +235,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
     buildGoogleApiClient();
   }
 
+  /**
+   * Enables the map to show user's current position.
+   */
   @SuppressLint("MissingPermission")
   private void showCurrentLocationOnMap() {
     if (ActivityCompat
@@ -257,6 +280,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
     getNearbyPlacesData.execute(DataTransfer);
   }
 
+  /**
+   * Builds and returns the URL for the <code>GET</code> request based on latitude and longitude.
+   *
+   * @param latitude latitude of requested point
+   * @param longitude longitude of requested point
+   * @return constructed URL in a <code>String</code>
+   */
   private String getUrl(double latitude, double longitude) {
     StringBuilder googlePlacesUrl = new StringBuilder(
         "https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
@@ -280,6 +310,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
     }
   }
 
+  /**
+   * Creates a <code>LocationRequest</code> that allows the use of the <code>onLocationChanged</code>
+   * to be called.
+   *
+   * @return created <code>LocationRequest</code>
+   */
   private LocationRequest createLocationRequest() {
     LocationRequest mLocationRequest = new LocationRequest();
     mLocationRequest.setInterval(6000);
@@ -288,12 +324,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
     return mLocationRequest;
   }
 
+  /**
+   * Creates a <code>PendingIntent</code> for a geofence.
+   *
+   * @return created <code>PendingIntent</code>
+   */
   private PendingIntent getGeofencePendingIntent() {
     Intent intent = new Intent(getContext(), MapService.class);
     return PendingIntent.getService(getContext(), 0, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
   }
 
+  /**
+   * Creates a <code>GeofencingRequest</code> for a geofence.
+   *
+   * @param geofence <code>Geofence</code> to be affected
+   * @return created <code>GeofencingRequest</code>
+   */
   private GeofencingRequest getGeofencingRequest(Geofence geofence) {
     GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
     builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_DWELL);
@@ -301,6 +348,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
     return builder.build();
   }
 
+  /**
+   * Creates a <code>Geofence</code> object based on latitude, longitude, and a
+   * key that contains both latitude as well as longitude.
+   *
+   * @param lat latitude of requested point
+   * @param lang longitude of requested point
+   * @param key <code>String</code> containing both <code>lat</code> and <code>lang</code>
+   * @return created <code>Geofence</code>
+   */
   private Geofence getGeofence(double lat, double lang, String key) {
     return new Geofence.Builder()
         .setRequestId(key)
@@ -312,6 +368,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
         .build();
   }
 
+  /**
+   * Checks if Google Play Services is available.
+   *
+   * @return <code>boolean</code> depending on Google Play Services availability
+   */
   private boolean CheckGooglePlayServices() {
     GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
     int result = googleAPI.isGooglePlayServicesAvailable(Objects.requireNonNull(getContext()));
@@ -325,6 +386,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
     return true;
   }
 
+  /**
+   * Builds a <code>GoogleApiClient</code>.
+   */
   private synchronized void buildGoogleApiClient() {
     mGoogleApiClient = new GoogleApiClient.Builder(Objects.requireNonNull(getContext()))
         .addConnectionCallbacks(this)
@@ -343,7 +407,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
         != PackageManager.PERMISSION_GRANTED
         && ActivityCompat.checkSelfPermission(getContext(), permission.ACCESS_COARSE_LOCATION)
         != PackageManager.PERMISSION_GRANTED) {
-      return;
     } else {
       mMap.setMyLocationEnabled(true);
     }
@@ -359,6 +422,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
 
   }
 
+  /**
+   * An <code>AsyncTask</code> that makes a request to Google API's(Maps and Places)
+   * to get the POI's around the requested location, mark certain types with markers,
+   * and put a geofence on each POI as well.
+   */
   public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
 
     String googlePlacesData;
@@ -390,6 +458,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
       Log.d("GooglePlacesReadTask", "onPostExecute Exit");
     }
 
+    /**
+     * Takes a <code>List</code> made from a JSON response from the Google API's
+     * and puts markers with geofences on every point in the list.
+     *
+     * @param nearbyPlacesList <code>List</code> made from a JSON response
+     */
     private void ShowNearbyPlaces(List<HashMap<String, String>> nearbyPlacesList) {
       for (HashMap<String, String> aNearbyPlacesList : nearbyPlacesList) {
         Log.d("onPostExecute", "Entered into showing locations");

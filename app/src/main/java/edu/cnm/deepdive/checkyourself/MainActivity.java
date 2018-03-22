@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import edu.cnm.deepdive.checkyourself.fragments.HomeFragment;
 import edu.cnm.deepdive.checkyourself.fragments.InputFragment;
 import edu.cnm.deepdive.checkyourself.fragments.SpendingFragment;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 

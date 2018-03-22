@@ -9,6 +9,11 @@ import android.arch.persistence.room.Update;
 import edu.cnm.deepdive.checkyourself.models.Budget;
 import java.util.List;
 
+/**
+ * <code>Dao</code> for the <code>Budget</code> entity.
+ *
+ * @author Jake Batchelor
+ */
 @Dao
 public interface BudgetDao {
 

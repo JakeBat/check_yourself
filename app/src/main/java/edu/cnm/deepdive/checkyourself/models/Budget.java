@@ -5,6 +5,13 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+/**
+ * Class that creates columns of a database entity, as well as
+ * <code>getters</code> and <code>setters</code> for each. Also
+ * has a method for populating the database upon creation.
+ *
+ * @author Jake Batchelor
+ */
 @Entity
 public class Budget {
 
@@ -26,11 +33,20 @@ public class Budget {
   @ColumnInfo(name = "spending_total")
   private double spendingTotal;
 
+  /**
+   * Default constructor for class
+   */
   @Ignore
   public Budget() {
 
   }
 
+  /**
+   * Constructor that takes a <code>double</code> to put into
+   * the income column.
+   *
+   * @param income dollar amount
+   */
   public Budget(double income) {
     this.income = income;
   }
