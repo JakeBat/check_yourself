@@ -10,7 +10,6 @@ import android.util.Log;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
-import edu.cnm.deepdive.checkyourself.MainActivity;
 import edu.cnm.deepdive.checkyourself.R;
 import edu.cnm.deepdive.checkyourself.UniDatabase;
 import edu.cnm.deepdive.checkyourself.models.Record.Display;
@@ -62,7 +61,7 @@ public class MapService extends IntentService {
             .setSmallIcon(R.drawable.notification_ic)
             .setContentTitle("Just a reminder! Here's what you have left for the month:")
             .setContentText(
-                String.format("Just a Reminder! Here's what you have left for the month:"))
+                "Just a Reminder! Here's what you have left for the month:")
             .setStyle(new BigTextStyle().bigText(String.format("Food: $%.2f%n"
                     + "Monthly: $%.2f%n"
                     + "Entertainment: $%.2f%n"

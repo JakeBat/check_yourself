@@ -6,6 +6,8 @@ of monthly income they'd like to put into savings. The app also sends notificati
 on user's location to remind them of the amount left in their budgets when approaching
 certain types of Google Maps POI's. 
 
+![Screenshot1](Screenshots/Screenshot1.png) ![Screenshot2](Screenshots/Screenshot2.png) ![Screenshot3](Screenshots/Screenshot3.png) ![Screenshot4](Screenshots/Screenshot4.png)
+
 ## Why I Made This
 I decided to make a budget app as I'm horrible with managing my own money
 and I'm there's others out there that struggle with money management as well. I wanted
