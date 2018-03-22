@@ -2,15 +2,15 @@
 A simple budgeting application for Android built in roughly 4-5 weeks that relies entirely on
 user input to track spending. Auto-generates a suggested spending amount for
 categories of that budget, as well as allowing the user to specify the percentage
-of monthly income they'd like to put into savings. Also sends notifications based
+of monthly income they'd like to put into savings. The app also sends notifications based
 on user's location to remind them of the amount left in their budgets when approaching
 certain types of Google Maps POI's. 
 
 ## Why I Made This
 I decided to make a budget app as I'm horrible with managing my own money
-And I'm there's others out there that struggle with it as well. I also wanted
-to pick a project that was practical to build as well as potentially useful
-to users.
+and I'm there's others out there that struggle with money management as well. I wanted
+to create something that was practical to build for my skill level, as well as a potentially useful
+tool for users.
 
 ## State of the App
 Check Yourself as is could be considered a working prototype as is, it has the
@@ -53,7 +53,7 @@ points such as a mall
 to auto-fill the "spending" list
 - Make the category/tag system dynamic(i.e. Allow users to add or delete tags)
 - Improve the location notification to send specific categories based on location
-rather than just sending all
+rather than just sending all categories
 
 #### ---Javadoc Link Placeholder---
 
