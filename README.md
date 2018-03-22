@@ -1,4 +1,10 @@
 # Check Yourself - A Budget App
+A simple budgeting application for Android built in roughly 4-5 weeks that relies entirely on
+user input to track spending. Auto-generates a suggested spending amount for
+categories of that budget, as well as allowing the user to specify the percentage
+of monthly income they'd like to put into savings. Also sends notifications based
+on user's location to remind them of the amount left in their budgets when approaching
+certain types of Google Maps POI's. 
 
 ## Why I Made This
 I decided to make a budget app as I'm horrible with managing my own money
@@ -28,14 +34,28 @@ points such as a mall
 - Orientation locked to vertical
 - Only in English (for now)
 
-## 3rd Party Libraries
+### 3rd Party Libraries
 - [GraphView](https://github.com/appsthatmatter/GraphView)--[License](Licenses/GraphViewLicense)
 - [Stetho](https://github.com/facebook/stetho)--[License](Licenses/StethoLicense)
 - [Android Volley](https://github.com/mcxiaoke/android-volley)-[License](Licenses/VolleyLicense)
 
-## External Services
+### External Services
 - [Google Maps API](https://developers.google.com/maps/)--[License](Licenses/GoogleLicense)
 - [Google Places API](https://developers.google.com/places/)--[License](Licenses/GoogleLicense)
+
+### UI Improvements to be Made
+- Add both a light and dark theme
+- Make the text in the ListView formatted 
+- Adjust the layout to appear less "clunky"
+
+### Stretch Goals
+- Implement the ability to read of the users bank account transactions
+to auto-fill the "spending" list
+- Make the category/tag system dynamic(i.e. Allow users to add or delete tags)
+- Improve the location notification to send specific categories based on location
+rather than just sending all
+
+#### ---Javadoc Link Placeholder---
 
 ## License
 Copyright &copy; 2018 Jake Batchelor
