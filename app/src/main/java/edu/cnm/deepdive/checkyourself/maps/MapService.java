@@ -5,12 +5,17 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat.BigTextStyle;
 import android.util.Log;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
 import edu.cnm.deepdive.checkyourself.MainActivity;
 import edu.cnm.deepdive.checkyourself.R;
+import edu.cnm.deepdive.checkyourself.UniDatabase;
+import edu.cnm.deepdive.checkyourself.models.Record.Display;
+import edu.cnm.deepdive.checkyourself.models.Total;
+import java.util.List;
 
 public class MapService extends IntentService {
 
@@ -49,13 +54,23 @@ public class MapService extends IntentService {
   }
 
   private void notifyLocationAlert() {
+    List<Display> sums = UniDatabase.getInstance(getApplicationContext()).recordDao().getSums();
+    List<Total> totals = UniDatabase.getInstance(getApplicationContext()).totalDao().getAll();
     String CHANNEL_ID = "Check Yourself";
     NotificationCompat.Builder builder =
         new NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.notification_ic)
-            .setContentTitle("Budget Left!")
+            .setContentTitle("Just a reminder! Here's what you have left for the month:")
             .setContentText(
-                String.format("You have $%.2f to spend on %s this month", 100.45, "Food"));
+                String.format("Just a Reminder! Here's what you have left for the month:"))
+            .setStyle(new BigTextStyle().bigText(String.format("Food: $%.2f%n"
+                    + "Monthly: $%.2f%n"
+                    + "Entertainment: $%.2f%n"
+                    + "Misc: $%.2f%n",
+                totals.get(0).getTotal() + sums.get(0).getAmount(),
+                totals.get(1).getTotal() + sums.get(1).getAmount(),
+                totals.get(2).getTotal() + sums.get(2).getAmount(),
+                totals.get(3).getTotal() + sums.get(3).getAmount())));
     builder.setAutoCancel(true);
     NotificationManager mNotificationManager =
         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
