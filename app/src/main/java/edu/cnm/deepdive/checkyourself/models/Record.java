@@ -7,6 +7,13 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
+/**
+ * Class that creates columns of a database entity - <code>Record</code>, as well as
+ * <code>getters</code> and <code>setters</code> for each. Also
+ * has a method for populating the database upon creation.
+ *
+ * @author Jake Batchelor
+ */
 @Entity(foreignKeys = @ForeignKey(entity = Record.class,
     parentColumns = "id",
     childColumns = "tag_id",
@@ -25,10 +32,21 @@ public class Record {
   @ColumnInfo(name = "info")
   private String info;
 
+  /**
+   * Default constructor for class
+   */
   public Record() {
 
   }
 
+  /**
+   * Constructor that takes a <code>double</code>, <code>long</code>, and <code>String</code> to
+   * insert into the amount, tag_id, and info columns respectively.
+   *
+   * @param amount dollar amount
+   * @param tag_id number ID for desired column
+   * @param info information on purchase
+   */
   private Record(double amount, long tag_id, String info) {
     this.amount = amount;
     this.tag_id = tag_id;
@@ -67,6 +85,11 @@ public class Record {
     this.info = info;
   }
 
+  /**
+   * Populates the database upon initial creation.
+   *
+   * @return An Array of <code>Record</code> objects to be put in the database
+   */
   public static Record[] populateData() {
     return new Record[]{
         new Record(0.00, 1, "N/A"),
@@ -76,7 +99,11 @@ public class Record {
     };
   }
 
-
+  /**
+   * A class made to correctly merge as well as display the tag column value of
+   * the Category class with the amount and info columns of the Record class. Also
+   * provides <code>getters</code> and <code>setters</code> for each column.
+   */
   public static class Display {
 
     @ColumnInfo(name = "tag")

@@ -6,7 +6,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 /**
- * Class that creates columns of a database entity, as well as
+ * Class that creates columns of a database entity - <code>Budget</code>, as well as
  * <code>getters</code> and <code>setters</code> for each. Also
  * has a method for populating the database upon creation.
  *
@@ -99,6 +99,11 @@ public class Budget {
     this.spendingTotal = spendingTotal;
   }
 
+  /**
+   * Populates the database upon initial creation.
+   *
+   * @return An Array of <code>Budget</code> objects to be put in the database
+   */
   public static Budget[] populateData() {
     return new Budget[]{
         new Budget(0)

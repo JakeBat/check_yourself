@@ -16,10 +16,19 @@ import edu.cnm.deepdive.checkyourself.models.Record.Display;
 import edu.cnm.deepdive.checkyourself.models.Total;
 import java.util.List;
 
+/**
+ * A service that tracks if a <code>Geofence</code> is triggering
+ * and sends the user a notification if certain conditions are met.
+ *
+ * @author Jake Batchelor
+ */
 public class MapService extends IntentService {
 
   private static final String IDENTIFIER = "LocationAlertIS";
 
+  /**
+   * Default constructor for the fragment.
+   */
   public MapService() {
     super(IDENTIFIER);
   }

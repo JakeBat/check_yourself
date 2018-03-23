@@ -57,7 +57,7 @@ to auto-fill the "spending" list
 - Improve the location notification to send specific categories based on location
 rather than just sending all categories
 
-#### ---Javadoc Link Placeholder---
+#### [Javadoc](docs/index.html)
 
 ## License
 Copyright &copy; 2018 Jake Batchelor

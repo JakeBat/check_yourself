@@ -16,19 +16,50 @@ import edu.cnm.deepdive.checkyourself.models.Record;
 import edu.cnm.deepdive.checkyourself.models.Total;
 import java.util.concurrent.Executors;
 
+/**
+ * The database class Room uses to pull together all the model and dao classes
+ * to build the database. Contains a method to build the database that calls all
+ * the <code>populateData</code> methods in all the model classes.
+ */
 @Database(entities = {Category.class, Budget.class, Record.class, Total.class}, version = 1)
 public abstract class UniDatabase extends RoomDatabase {
 
   private static UniDatabase INSTANCE;
 
+  /**
+   * Creates a <code>CategoryDao</code> object for database queries.
+   *
+   * @return <code>CategoryDao</code> object
+   */
   public abstract CategoryDao categoryDao();
 
+  /**
+   * Creates a <code>BudgetDao</code> object for database queries.
+   *
+   * @return <code>BudgetDao</code> object
+   */
   public abstract BudgetDao budgetDao();
 
+  /**
+   * Creates a <code>RecordDao</code> object for database queries.
+   *
+   * @return <code>RecordDao</code> object
+   */
   public abstract RecordDao recordDao();
 
+  /**
+   * Creates a <code>TotalDao</code> object for database queries.
+   *
+   * @return <code>TotalDao</code> object
+   */
   public abstract TotalDao totalDao();
 
+  /**
+   * Creates an instance of the database for access.
+   *
+   * @param context context of activity
+   * @return instance of the database
+   */
   public synchronized static UniDatabase getInstance(Context context) {
     if (INSTANCE == null) {
       INSTANCE = buildDatabase(context);

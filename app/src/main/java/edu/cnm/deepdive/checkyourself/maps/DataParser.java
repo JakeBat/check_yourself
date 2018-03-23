@@ -8,8 +8,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * A class meant to take JSON responses and parse them into <code>List</code>'s of
+ * <code>HashMap</code>'s for use in Java code/methods.
+ *
+ * @author Jake Batchelor
+ */
 public class DataParser {
 
+  /**
+   * Takes a JSON response in as a <code>String</code> and parses it into a
+   * <code>List</code> of <code>HashMap</code>'s.
+   *
+   * @param jsonData JSON response as a <code>String</code>
+   * @return <code>List</code> of <code>HashMap</code>'s
+   */
   public List<HashMap<String, String>> parse(String jsonData) {
     JSONArray jsonArray = null;
     JSONObject jsonObject;

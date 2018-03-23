@@ -16,6 +16,14 @@ import edu.cnm.deepdive.checkyourself.fragments.HomeFragment;
 import edu.cnm.deepdive.checkyourself.fragments.InputFragment;
 import edu.cnm.deepdive.checkyourself.fragments.SpendingFragment;
 
+/**
+ * A tabbed navigation activity that sets up the display as well as show the
+ * <code>HomeFragment</code>, <code>SpendingFragment</code>, and <code>InputFragment</code>.
+ * Also contains a method for for requesting location permissions on launch if not already
+ * granted by the user.
+ *
+ * @author Jake Batchelor
+ */
 public class MainActivity extends AppCompatActivity {
 
   private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -69,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
 
   }
 
+  /**
+   * A method to create an instance of the database for later access.
+   *
+   * @param context context of activity
+   * @return instance of the Unidatabase
+   */
   public UniDatabase getDatabase(Context context) {
     if (database == null) {
       database = UniDatabase.getInstance(context);
