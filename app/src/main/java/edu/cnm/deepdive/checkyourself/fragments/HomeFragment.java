@@ -429,34 +429,34 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Connec
    */
   public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
 
-    String googlePlacesData;
-    GoogleMap mMap;
-    String url;
+      String googlePlacesData;
+      GoogleMap mMap;
+      String url;
 
-    @Override
-    protected String doInBackground(Object... params) {
-      try {
-        Log.d("GetNearbyPlacesData", "doInBackground entered");
-        mMap = (GoogleMap) params[0];
-        url = (String) params[1];
-        DownloadUrl downloadUrl = new DownloadUrl();
-        googlePlacesData = downloadUrl.readUrl(url);
-        Log.d("GooglePlacesReadTask", "doInBackground Exit");
-      } catch (Exception e) {
-        Log.d("GooglePlacesReadTask", e.toString());
+      @Override
+      protected String doInBackground(Object... params) {
+        try {
+          Log.d("GetNearbyPlacesData", "doInBackground entered");
+          mMap = (GoogleMap) params[0];
+          url = (String) params[1];
+          DownloadUrl downloadUrl = new DownloadUrl();
+          googlePlacesData = downloadUrl.readUrl(url);
+          Log.d("GooglePlacesReadTask", "doInBackground Exit");
+        } catch (Exception e) {
+          Log.d("GooglePlacesReadTask", e.toString());
+        }
+        return googlePlacesData;
       }
-      return googlePlacesData;
-    }
 
-    @Override
-    protected void onPostExecute(String result) {
-      Log.d("GooglePlacesReadTask", "onPostExecute Entered");
-      List<HashMap<String, String>> nearbyPlacesList;
-      DataParser dataParser = new DataParser();
-      nearbyPlacesList = dataParser.parse(result);
-      ShowNearbyPlaces(nearbyPlacesList);
-      Log.d("GooglePlacesReadTask", "onPostExecute Exit");
-    }
+      @Override
+      protected void onPostExecute(String result) {
+        Log.d("GooglePlacesReadTask", "onPostExecute Entered");
+        List<HashMap<String, String>> nearbyPlacesList;
+        DataParser dataParser = new DataParser();
+        nearbyPlacesList = dataParser.parse(result);
+        ShowNearbyPlaces(nearbyPlacesList);
+        Log.d("GooglePlacesReadTask", "onPostExecute Exit");
+      }
 
     /**
      * Takes a <code>List</code> made from a JSON response from the Google API's
