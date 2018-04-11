@@ -39,7 +39,7 @@ points such as a mall
 ### 3rd Party Libraries
 - [GraphView](https://github.com/appsthatmatter/GraphView)--[License](Licenses/GraphViewLicense)
 - [Stetho](https://github.com/facebook/stetho)--[License](Licenses/StethoLicense)
-- [Android Volley](https://github.com/mcxiaoke/android-volley)-[License](Licenses/VolleyLicense)
+- [Android Volley](https://github.com/mcxiaoke/android-volley)--[License](Licenses/VolleyLicense)
 
 ### External Services
 - [Google Maps API](https://developers.google.com/maps/)--[License](Licenses/GoogleLicense)
